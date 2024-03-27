@@ -3,6 +3,19 @@
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
+fun main(args: Array<String>) {
+    val left: Either<String, Int> = Either.Left("foo")
+    val right: Either<String, Int> = Either.Right(1)
+
+    println("left $left")
+    println("left.isRight() ${left.isRight()}")
+    println("left.isLeft() ${left.isLeft()}")
+
+    println("right $right")
+    println("right.isRight() ${right.isRight()}")
+    println("right.isLeft() ${right.isLeft()}")
+}
+
 public sealed class Either<out A, out B> {
     @Deprecated(
         RedundantAPI + "Use isRight()",
