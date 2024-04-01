@@ -74,5 +74,20 @@ public sealed class Either<out A, out B> {
     }
 }
 
+public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
+
+public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) -> A, combineRight: (B, B) -> B): Either<A, B> =
+    when (val one = this){
+        is Either.Left -> when (other) {
+            is Either.Left -> Either.Left(combineLeft(one.value, other.value))
+            is Either.Right -> one
+        }
+
+        is Either.Right -> when(other) {
+            is Either.Left -> other
+            is Either.Right -> Either.Right(combineRight(one.value, other.value))
+        }
+    }
+
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
