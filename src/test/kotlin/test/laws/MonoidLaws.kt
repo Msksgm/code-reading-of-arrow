@@ -16,13 +16,14 @@ data class MonoidLaws<F>(
     val GEN: Arb<F>,
     val eq: (F, F) -> Boolean = { a, b -> a == b }
 ): LawSet {
+
     override val laws: List<Law> =
         SemigroupLaws(name, combine, GEN, eq).laws +
-            listOf(
-                    Law("Monoid Laws ($name): Left identify") { monoidLeftIdentity() },
+                listOf(
+                    Law("Monoid Laws ($name): Left identity") { monoidLeftIdentity() },
                     Law("Monoid Laws ($name): Right identity") { monoidRightIdentity() },
                     Law("Monoid Laws ($name): combineAll should be derived") { combineAllIsDerived() },
-                    Law("Monoid Laws ($name): combineAll of empty list is empty") { combineAllOfEmptyIsEmpty() },
+                    Law("Monoid Laws ($name): combineAll of empty list is empty") { combineAllOfEmptyIsEmpty() }
                 )
 
     private suspend fun monoidLeftIdentity(): PropertyContext =

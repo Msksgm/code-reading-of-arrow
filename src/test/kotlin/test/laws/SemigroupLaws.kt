@@ -14,12 +14,7 @@ data class SemigroupLaws<F>(
     val eq: (F, F) -> Boolean = { a, b -> a == b }
 ): LawSet {
     override val laws: List<Law> =
-        listOf(Law("Semigroup Laws ($name): associativity"){semigroupAssociate()})
-
-    private suspend fun semigroupAssociate(): PropertyContext =
-        checkAll(G, G, G) { A, B, C ->
-            combine(combine(A, B), C).equalUnderTheLaw(combine(A, combine(B, C)), eq)
-        }
+        listOf(Law("Semigroup Laws ($name): associativity"){ semigroupAssociative() })
 
     private suspend fun semigroupAssociative(): PropertyContext =
         checkAll(G, G, G) { A, B, C ->

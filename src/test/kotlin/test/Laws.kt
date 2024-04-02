@@ -13,7 +13,7 @@ interface LawSet {
 
 data class Law(val name: String, val test: suspend TestContext.() -> Unit)
 
-fun <A> A.equalUnderTheLaw(b: A, f: (A, A) -> Boolean = {x, y -> x== y}): Boolean =
+fun <A> A.equalUnderTheLaw(b: A, f: (A, A) -> Boolean = { x, y -> x == y }): Boolean =
   if (f(this, b)) true else fail("Found $this but expected: $b")
 
 fun StringSpec.testLaws(lawSet: LawSet): Unit = testLaws(lawSet.laws)
