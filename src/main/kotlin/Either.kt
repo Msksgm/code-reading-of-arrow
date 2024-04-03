@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalContracts::class)
 
 import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 fun main(args: Array<String>) {
@@ -71,6 +72,32 @@ public sealed class Either<out A, out B> {
             @PublishedApi
             internal val unit: Either<Nothing, Unit> = Right(Unit)
         }
+    }
+
+    @Deprecated(
+        "tap is being renamed to onRight to be more consistent with the Kotlin Standard Library naming",
+        ReplaceWith("onRight(f)")
+    )
+    public inline fun tap(f: (right: B) -> Unit): Either<A, B> = onRight(f)
+
+    /**
+     * Performs the given [action] on the encapsulated [B] value if this instance represents [Either.Right].
+     * Returns the original [Either] unchanged.
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Right(1).onRight(::println) shouldBe Either.Right(1)
+     * }
+     * ```
+     */
+    public inline fun onRight(action: (right: B) -> Unit): Either<A, B> {
+        contract {
+            callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+        }
+        return also { if (it.isRight()) action(it.value) }
     }
 }
 
