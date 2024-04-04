@@ -62,4 +62,11 @@ class EitherTest : StringSpec({
             left.fold({it + 2}, {it + 1}) shouldBe b + 2
         }
     }
+
+    "foldLeft should return initial if Left and apply op if Right" {
+        checkAll<Int, Int, Int>(Arb.intSmall(), Arb.intSmall(), Arb.intSmall()) { a, b, c ->
+            Either.Right(a).foldLeft(c, Int::plus) shouldBe c + a
+            Either.Left(b).foldLeft(c, Int::plus) shouldBe c
+        }
+    }
 })

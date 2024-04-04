@@ -145,6 +145,13 @@ public sealed class Either<out A, out B> {
             is Right -> ifRight(value)
         }
     }
+
+    @Deprecated(
+        "Use fold instead",
+        ReplaceWith("fold(ifLeft, ifRight)")
+    )
+    public inline fun <C> foldLeft(initial: C, rightOperation: (C, B) -> C): C =
+        fold({ initial }, { rightOperation(initial, it) })
 }
 
 public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
