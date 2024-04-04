@@ -75,6 +75,12 @@ public sealed class Either<out A, out B> {
     }
 
     @Deprecated(
+        "tapLeft is being renamed to onLfet to be more consistent with the Kotlin Standard Library naming",
+        ReplaceWith("onLeft(f)")
+    )
+    public inline fun tapLeft(f: (left: A) -> Unit): Either<A, B> = onLeft(f)
+
+    @Deprecated(
         "tap is being renamed to onRight to be more consistent with the Kotlin Standard Library naming",
         ReplaceWith("onRight(f)")
     )
@@ -98,6 +104,13 @@ public sealed class Either<out A, out B> {
             callsInPlace(action, InvocationKind.AT_MOST_ONCE)
         }
         return also { if (it.isRight()) action(it.value) }
+    }
+
+    public inline fun onLeft(action: (left: A) -> Unit): Either<A, B> {
+        contract {
+            callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+        }
+        return also { if (it.isLeft()) action(it.value) }
     }
 }
 
