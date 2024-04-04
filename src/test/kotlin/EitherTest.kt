@@ -6,6 +6,7 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.long
 import io.kotest.property.checkAll
 import test.either
+import test.laws.intSmall
 
 class EitherTest : StringSpec({
     "isLeft shoud return true if Left and false if Right" {
@@ -49,6 +50,16 @@ class EitherTest : StringSpec({
             }
             effect shouldBe expected
             res shouldBe either
+        }
+    }
+
+    "fold should apply first op if Left and second op if Right" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) {a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.fold({it + 2}, {it + 1}) shouldBe a + 1
+            left.fold({it + 2}, {it + 1}) shouldBe b + 2
         }
     }
 })
