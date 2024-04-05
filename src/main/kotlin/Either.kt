@@ -1,5 +1,6 @@
 @file:OptIn(ExperimentalContracts::class)
 
+import typeclasses.Monoid
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -152,6 +153,13 @@ public sealed class Either<out A, out B> {
     )
     public inline fun <C> foldLeft(initial: C, rightOperation: (C, B) -> C): C =
         fold({ initial }, { rightOperation(initial, it) })
+
+    @Deprecated(
+        NicheAPI + "Prefer when or fold instead",
+        ReplaceWith("fold({ ifLeft }, f)")
+    )
+    public fun <C> foldMap(MN: Monoid<C>, f: (B) -> C): C =
+        fold({ MN.empty() }, f)
 }
 
 public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
@@ -171,3 +179,6 @@ public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) 
 
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
+
+public const val NicheAPI: String =
+    "This API is niche and will be removed in the future. If this method is crucial for you, please"

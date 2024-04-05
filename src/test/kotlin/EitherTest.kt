@@ -7,6 +7,7 @@ import io.kotest.property.arbitrary.long
 import io.kotest.property.checkAll
 import test.either
 import test.laws.intSmall
+import typeclasses.Monoid
 
 class EitherTest : StringSpec({
     "isLeft shoud return true if Left and false if Right" {
@@ -67,6 +68,15 @@ class EitherTest : StringSpec({
         checkAll<Int, Int, Int>(Arb.intSmall(), Arb.intSmall(), Arb.intSmall()) { a, b, c ->
             Either.Right(a).foldLeft(c, Int::plus) shouldBe c + a
             Either.Left(b).foldLeft(c, Int::plus) shouldBe c
+        }
+    }
+
+    "foldMap should return the empty of the inner type if Left and apply op if Right" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val left: Either<Int, Int> = Either.Left(b)
+
+            Either.Right(a).foldMap(Monoid.int()) { it + 1 } shouldBe a + 1
+            left.foldMap(Monoid.int()) { it + 1 } shouldBe Monoid.int().empty()
         }
     }
 })
