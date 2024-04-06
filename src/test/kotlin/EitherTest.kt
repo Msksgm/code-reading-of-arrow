@@ -79,4 +79,11 @@ class EitherTest : StringSpec({
             left.foldMap(Monoid.int()) { it + 1 } shouldBe Monoid.int().empty()
         }
     }
+
+    "bifoldLeft should apply first op if Left and apply second op if Right" {
+        checkAll(Arb.intSmall(), Arb.intSmall(), Arb.intSmall()) { a, b, c ->
+            Either.Right(a).bifoldLeft(c, Int::plus, Int::times) shouldBe a * c
+            Either.Left(b).bifoldLeft(c, Int::plus, Int::times) shouldBe b + c
+        }
+    }
 })
