@@ -86,4 +86,14 @@ class EitherTest : StringSpec({
             Either.Left(b).bifoldLeft(c, Int::plus, Int::times) shouldBe b + c
         }
     }
+
+    "bifoldMap should apply first op if Left and apply second op if Right" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.bifoldMap( Monoid.int(), { it + 2}, { it + 1 }) shouldBe a + 1
+            left.bifoldMap( Monoid.int(), { it + 2}, { it + 1 }) shouldBe b + 2
+        }
+    }
 })

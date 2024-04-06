@@ -167,6 +167,13 @@ public sealed class Either<out A, out B> {
     )
     public inline fun <C> bifoldLeft(c: C, f: (C, A) -> C, g: (C, B) -> C): C =
         fold({ f(c, it) }, { g(c, it) })
+
+    @Deprecated(
+        NicheAPI + "Prefer when or fold instead",
+        ReplaceWith("fold(f, g")
+    )
+    public inline fun <C> bifoldMap(MN: Monoid<C>, f: (A) -> C, g: (B) -> C) : C =
+        fold(f, g)
 }
 
 public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
