@@ -47,7 +47,7 @@ public sealed class Either<out A, out B> {
         return this@Either is Right<B>
     }
 
-    public class Left<out A> constructor(val value: A): Either<A, Nothing>() {
+    public data class Left<out A> constructor(val value: A): Either<A, Nothing>() {
         override val isLeft = true
         override val isRight = false
 
@@ -174,7 +174,19 @@ public sealed class Either<out A, out B> {
     )
     public inline fun <C> bifoldMap(MN: Monoid<C>, f: (A) -> C, g: (B) -> C) : C =
         fold(f, g)
+
+    public companion object {
+
+        @Deprecated(
+            RedundantAPI + "Prefer Kotlin nullable syntax, or ensureNotNull inside Either DSL",
+            ReplaceWith("a?.right() ?: Unit.left()")
+        )
+        @JvmStatic
+        public fun <A> fromNullable(a: A?): Either<Unit, A> = a?.right() ?: Unit.left()
+    }
 }
+
+public fun <A> A.left(): Either<A, Nothing> = Either.Left(this)
 
 public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
 

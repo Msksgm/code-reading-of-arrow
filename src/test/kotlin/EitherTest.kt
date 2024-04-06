@@ -1,6 +1,7 @@
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beTheSameInstanceAs
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.long
@@ -95,5 +96,15 @@ class EitherTest : StringSpec({
             right.bifoldMap( Monoid.int(), { it + 2}, { it + 1 }) shouldBe a + 1
             left.bifoldMap( Monoid.int(), { it + 2}, { it + 1 }) shouldBe b + 2
         }
+    }
+
+    "fromNullable should lift value as a Right if it is not null" {
+        checkAll(Arb.int()) { a ->
+            Either.fromNullable(a) shouldBe Either.Right(a)
+        }
+    }
+
+    "fromNullable should lift value as a Left(Unit) if it is null" {
+        Either.fromNullable(null) shouldBe Either.Left(Unit)
     }
 })
