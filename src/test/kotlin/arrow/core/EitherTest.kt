@@ -10,6 +10,7 @@ import io.kotest.property.checkAll
 import arrow.core.test.either
 import arrow.core.test.laws.intSmall
 import arrow.typeclasses.Monoid
+import io.kotest.property.arbitrary.string
 
 class EitherTest : StringSpec({
     "isLeft shoud return true if Left and false if Right" {
@@ -111,5 +112,15 @@ class EitherTest : StringSpec({
 
     "empty should return a Right of the empty of the inner type" {
         Either.Right(Monoid.string().empty()) shouldBe Monoid.either(Monoid.string(), Monoid.string()).empty()
+    }
+
+    "combine two rights should return a right of the combine of the inners" {
+        checkAll(Arb.string(), Arb.string()) { a: String, b: String ->
+            Monoid.string().run { Either.Right(a.combine(b))} shouldBe Either.Right(a).combine(
+                Monoid.string(),
+                Monoid.string(),
+                Either.Right(b)
+            )
+        }
     }
 })
