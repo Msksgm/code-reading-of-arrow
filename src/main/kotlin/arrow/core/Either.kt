@@ -214,6 +214,32 @@ public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) 
 public fun <A, B> Either<A, B>.combine(SGA: Semigroup<A>, SGB: Semigroup<B>, b: Either<A, B>): Either<A, B> =
     combine(b, SGA::combine, SGB::combine)
 
+@Deprecated(
+    RedundantAPI + "This API is overloaded with an API with a single argument",
+    level = DeprecationLevel.HIDDEN
+)
+public inline fun <B> Either<*, B>.getOrElse(default: () -> B): B =
+    fold({ default() }, ::identity)
+
+/**
+ * Get thr right value [B] of this [Either],
+ * or compute a [default] value with the left value [A].
+ *
+ * ```kotlin
+ * import arrow.core.Either
+ * import arrow.core.getOrElse
+ * import io.kotest.matchers.shouldBe
+ *
+ * fun test() {
+ *   Either.Left(12) getOrElse { it + 5 } shouldBe 17
+ * }
+ * ```
+ */
+public inline infix fun <A, B> Either<A, B>.getOrElse(default: (A) -> B): B {
+    contract { callsInPlace(default, InvocationKind.AT_MOST_ONCE)}
+    return fold(default, ::identity)
+}
+
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
 

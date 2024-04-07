@@ -136,4 +136,11 @@ class EitherTest : StringSpec({
             Either.Left(a) shouldBe Either.Right(a).combine(Monoid.string(), Monoid.string(), Either.Left(a))
         }
     }
+
+    "getOrElse should return value" {
+        checkAll(Arb.int(), Arb.int()) { a: Int, b: Int ->
+            Either.Right(a).getOrElse { b } shouldBe a
+            Either.Left(a).getOrElse { b } shouldBe b
+        }
+    }
 })
