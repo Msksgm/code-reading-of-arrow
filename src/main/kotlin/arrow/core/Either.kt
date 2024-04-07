@@ -1,6 +1,10 @@
 @file:OptIn(ExperimentalContracts::class)
 
-import typeclasses.Monoid
+package arrow.core
+
+import arrow.typeclasses.Monoid
+import arrow.typeclasses.Semigroup
+import arrow.typeclasses.combine
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -202,6 +206,13 @@ public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) 
             is Either.Right -> Either.Right(combineRight(one.value, other.value))
         }
     }
+
+@Deprecated(
+    RedundantAPI + "Prefer zipOrAccumulate",
+    ReplaceWith("Either.zipOrAccumulate<A, B, B, B, B>({ a:A, bb:A -> a + bb), this, b) { a:B, bb:B -> a + bb }")
+)
+public fun <A, B> Either<A, B>.combine(SGA: Semigroup<A>, SGB: Semigroup<B>, b: Either<A, B>): Either<A, B> =
+    combine(b, SGA::combine, SGB::combine)
 
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"

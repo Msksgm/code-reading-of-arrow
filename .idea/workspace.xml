@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b174575-a5f8-4047-88be-ada09a36ba7b" name="変更" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,11 +19,24 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Jupyter Notebook" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -55,23 +58,119 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
+    ]
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/kotlin/arrow/core" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/arrow/core" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/arrow" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="arrow" />
+      <recent name="test.core" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotest.EitherTest: empty should return a Right of the empty of the inner type">
+    <configuration name="EitherKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="arrow.core.EitherKt" />
+      <module name="code-reading-of-arrow.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EitherTest: empty should return a Right of the empty of the inner type" type="ioKotest" factoryName="Kotest" temporary="true" defaultName="singleModule">
+      <module name="code-reading-of-arrow.test" />
+      <option name="jrePath" value="" />
+      <option name="jrePathEnabled" value="false" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" value="$MODULE_WORKING_DIR$" />
+      <option name="programParameters" value="" />
+      <option name="specName" value="arrow.core.EitherTest" />
+      <option name="testPath" value="empty should return a Right of the empty of the inner type" />
+      <option name="packageName" value="" />
+      <option name="vmparams" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EitherTest: fromNullable should lift value as a Left(Unit) if it is null (1)" type="ioKotest" factoryName="Kotest" temporary="true" defaultName="singleModule">
+      <module name="code-reading-of-arrow.test" />
+      <option name="jrePath" value="" />
+      <option name="jrePathEnabled" value="false" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" value="$MODULE_WORKING_DIR$" />
+      <option name="programParameters" value="" />
+      <option name="specName" value="EitherTest" />
+      <option name="testPath" value="fromNullable should lift value as a Left(Unit) if it is null" />
+      <option name="packageName" value="" />
+      <option name="vmparams" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EitherTest: fromNullable should lift value as a Left(Unit) if it is null (2)" type="ioKotest" factoryName="Kotest" temporary="true" defaultName="singleModule">
+      <module name="code-reading-of-arrow.test" />
+      <option name="jrePath" value="" />
+      <option name="jrePathEnabled" value="false" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" value="$MODULE_WORKING_DIR$" />
+      <option name="programParameters" value="" />
+      <option name="specName" value="EitherTest" />
+      <option name="testPath" value="fromNullable should lift value as a Left(Unit) if it is null" />
+      <option name="packageName" value="" />
+      <option name="vmparams" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EitherTest: fromNullable should lift value as a Left(Unit) if it is null (3)" type="ioKotest" factoryName="Kotest" temporary="true" defaultName="singleModule">
+      <module name="code-reading-of-arrow.test" />
+      <option name="jrePath" value="" />
+      <option name="jrePathEnabled" value="false" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" value="$MODULE_WORKING_DIR$" />
+      <option name="programParameters" value="" />
+      <option name="specName" value="EitherTest" />
+      <option name="testPath" value="fromNullable should lift value as a Left(Unit) if it is null" />
+      <option name="packageName" value="" />
+      <option name="vmparams" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotest.EitherTest: empty should return a Right of the empty of the inner type" />
+        <item itemvalue="Kotest.EitherTest: fromNullable should lift value as a Left(Unit) if it is null (3)" />
+        <item itemvalue="Kotest.EitherTest: fromNullable should lift value as a Left(Unit) if it is null (2)" />
+        <item itemvalue="Kotlin.EitherKt" />
+        <item itemvalue="Kotest.EitherTest: fromNullable should lift value as a Left(Unit) if it is null (1)" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="アプリケーションレベル" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="デフォルトタスク">
@@ -82,13 +181,199 @@
       <updated>1711405530951</updated>
       <workItem from="1711405531967" duration="138000" />
       <workItem from="1711405679254" duration="3230000" />
+      <workItem from="1711662116681" duration="1978000" />
+      <workItem from="1711750340517" duration="76000" />
+      <workItem from="1711750429273" duration="3370000" />
+      <workItem from="1711755371765" duration="26653000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: Arrow の isRight と isLeft を写経">
+      <option name="closed" value="true" />
+      <created>1711491899446</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1711491899446</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: 動作確認用の main 関数を記述">
+      <option name="closed" value="true" />
+      <created>1711578339797</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1711578339797</updated>
+    </task>
+    <task id="LOCAL-00003" summary="test: test helper の Arb.either を実装">
+      <option name="closed" value="true" />
+      <created>1711751698787</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1711751698787</updated>
+    </task>
+    <task id="LOCAL-00004" summary="chore: kotest のライブラリを Arrow が利用しているバージョンに更新">
+      <option name="closed" value="true" />
+      <created>1711837863556</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1711837863556</updated>
+    </task>
+    <task id="LOCAL-00005" summary="test: Either のテストに利用している Laws を実装">
+      <option name="closed" value="true" />
+      <created>1711837897161</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1711837897161</updated>
+    </task>
+    <task id="LOCAL-00006" summary="test: EitherTest.kt に利用している MonoidLaws、SemigroupLaws、Laws を作成">
+      <option name="closed" value="true" />
+      <created>1711923074026</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1711923074026</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: Either.kt の combine を作成">
+      <option name="closed" value="true" />
+      <created>1712010115562</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1712010115562</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: ipynb ファイルを削除">
+      <option name="closed" value="true" />
+      <created>1712010314663</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712010314663</updated>
+    </task>
+    <task id="LOCAL-00009" summary="test: Either.kt の isRight と isLeft のテストを実装&#10;&#10;詳細&#10;MonoidLaws のテストは動作しなかったので削除">
+      <option name="closed" value="true" />
+      <created>1712095717216</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712095717216</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: Either.tap と Either.onRight を写経">
+      <option name="closed" value="true" />
+      <created>1712181409125</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712181409125</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: Either.tapLeft と Either.onLeft を写経">
+      <option name="closed" value="true" />
+      <created>1712267860281</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1712267860281</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: Either.fold を写経">
+      <option name="closed" value="true" />
+      <created>1712268606283</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1712268606283</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: Either.foldleft を写経">
+      <option name="closed" value="true" />
+      <created>1712268951036</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1712268951036</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: Either.foldMap を写経&#10;&#10;合わせて Monoid と Semigroup を一部実装">
+      <option name="closed" value="true" />
+      <created>1712357476580</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1712357476580</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: Either.bifoldLeft を写経">
+      <option name="closed" value="true" />
+      <created>1712390204101</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1712390204101</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: Either.bifoldMap を写経">
+      <option name="closed" value="true" />
+      <created>1712393829373</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1712393829373</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: Either.fromNullable を写経。Left が data class ではなく class だったので修正">
+      <option name="closed" value="true" />
+      <created>1712394967031</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1712394967031</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: EitherMonoid を写経">
+      <option name="closed" value="true" />
+      <created>1712448689903</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1712448689903</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Arrow の isRight と isLeft を写経" />
+    <MESSAGE value="feat: 動作確認用の main 関数を記述" />
+    <MESSAGE value="test: test helper の Arb.either を実装" />
+    <MESSAGE value="chore: kotest のライブラリを Arrow が利用しているバージョンに更新" />
+    <MESSAGE value="test: Either のテストに利用している Laws を実装" />
+    <MESSAGE value="test: EitherTest.kt に利用している MonoidLaws、SemigroupLaws、Laws を作成" />
+    <MESSAGE value="feat: Either.kt の combine を作成" />
+    <MESSAGE value="feat: ipynb ファイルを削除" />
+    <MESSAGE value="test: Either.kt の isRight と isLeft のテストを実装&#10;&#10;詳細&#10;MonoidLaws のテストは動作しなかったので削除" />
+    <MESSAGE value="feat: Either.tap と Either.onRight を写経" />
+    <MESSAGE value="feat: Either.tapLeft と Either.onLeft を写経" />
+    <MESSAGE value="feat: Either.fold を写経" />
+    <MESSAGE value="feat: Either.foldleft を写経" />
+    <MESSAGE value="feat: Either.foldMap を写経&#10;&#10;合わせて Monoid と Semigroup を一部実装" />
+    <MESSAGE value="feat: Either.bifoldLeft を写経" />
+    <MESSAGE value="feat: Either.bifoldMap を写経" />
+    <MESSAGE value="feat: Either.fromNullable を写経。Left が data class ではなく class だったので修正" />
+    <MESSAGE value="feat: EitherMonoid を写経" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: EitherMonoid を写経" />
+  </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
   </component>
+  <component name="WfRunsListSearchHistory">{
+  &quot;history&quot;: [
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    }
+  ],
+  &quot;lastFilter&quot;: {
+  }
+}</component>
 </project>

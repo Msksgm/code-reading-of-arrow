@@ -1,14 +1,15 @@
+package arrow.core
+
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.beTheSameInstanceAs
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.long
 import io.kotest.property.checkAll
-import test.either
-import test.laws.intSmall
-import typeclasses.Monoid
+import arrow.core.test.either
+import arrow.core.test.laws.intSmall
+import arrow.typeclasses.Monoid
 
 class EitherTest : StringSpec({
     "isLeft shoud return true if Left and false if Right" {
@@ -106,5 +107,9 @@ class EitherTest : StringSpec({
 
     "fromNullable should lift value as a Left(Unit) if it is null" {
         Either.fromNullable(null) shouldBe Either.Left(Unit)
+    }
+
+    "empty should return a Right of the empty of the inner type" {
+        Either.Right(Monoid.string().empty()) shouldBe Monoid.either(Monoid.string(), Monoid.string()).empty()
     }
 })

@@ -1,6 +1,6 @@
-package test
+package arrow.core.test
 
-import Either
+import arrow.core.Either
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.choice
 import io.kotest.property.arbitrary.map

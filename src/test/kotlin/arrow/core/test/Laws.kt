@@ -1,4 +1,4 @@
-package test
+package arrow.core.test
 
 import io.kotest.assertions.fail
 import io.kotest.core.names.TestName

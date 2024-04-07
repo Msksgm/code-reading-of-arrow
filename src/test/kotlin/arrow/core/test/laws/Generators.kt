@@ -1,4 +1,4 @@
-package test.laws
+package arrow.core.test.laws
 
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int

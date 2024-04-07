@@ -1,13 +1,13 @@
-package test.laws
+package arrow.core.test.laws
 
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.PropertyContext
 import io.kotest.property.arbitrary.list
 import io.kotest.property.checkAll
-import test.Law
-import test.LawSet
-import test.equalUnderTheLaw
+import arrow.core.test.Law
+import arrow.core.test.LawSet
+import arrow.core.test.equalUnderTheLaw
 
 data class MonoidLaws<F>(
     val name: String,
