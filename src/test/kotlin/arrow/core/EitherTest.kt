@@ -129,4 +129,11 @@ class EitherTest : StringSpec({
             Monoid.string().run { Either.Left(a.combine(b)) } shouldBe Either.Left(a).combine(Monoid.string(), Monoid.string(), Either.Left(b))
         }
     }
+
+    "combine a right and a left should return left" {
+        checkAll(Arb.string(), Arb.string()) { a: String , b: String ->
+            Either.Left(a) shouldBe Either.Left(a).combine(Monoid.string(), Monoid.string(), Either.Right(b))
+            Either.Left(a) shouldBe Either.Right(a).combine(Monoid.string(), Monoid.string(), Either.Left(a))
+        }
+    }
 })
