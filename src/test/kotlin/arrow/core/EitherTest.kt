@@ -123,4 +123,10 @@ class EitherTest : StringSpec({
             )
         }
     }
+
+    "combine two lefts should return a left of the combine of the inners" {
+        checkAll(Arb.string(), Arb.string()) { a: String, b: String ->
+            Monoid.string().run { Either.Left(a.combine(b)) } shouldBe Either.Left(a).combine(Monoid.string(), Monoid.string(), Either.Left(b))
+        }
+    }
 })
