@@ -118,6 +118,41 @@ public sealed class Either<out A, out B> {
         return also { if (it.isLeft()) action(it.value) }
     }
 
+    @Deprecated(
+        "orNull is being renamed to getOrNull to be more consistent with the Kotlin Standard Library naming",
+        ReplaceWith("getOrNull()")
+    )
+    public fun orNull(): B? {
+        contract {
+            returns(null) implies (this@Either is Left<A>)
+            returnsNotNull() implies (this@Either is Right<B>)
+        }
+        return fold({ null }, { it })
+    }
+
+    /**
+     * Returns the unwrapped value [0] of [Either.Right] or `null` if it is [Either.Left]
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Right(12).getOrNull() shouldBe 12
+     *   Either.Left(12).getOrNull() shouldBe null
+     * }
+     * ```
+     *
+     * @return
+     */
+    public fun getOrNUll(): B? {
+        contract {
+            returns(null) implies (this@Either is Left<A>)
+            returnsNotNull() implies (this@Either is Right<B>)
+        }
+        return getOrElse { null }
+    }
+
     /**
      * Transform an [Either] into a value of [C].
      * Alternative to using `when` to fold an [Either] into a value [C].
@@ -239,6 +274,27 @@ public inline infix fun <A, B> Either<A, B>.getOrElse(default: (A) -> B): B {
     contract { callsInPlace(default, InvocationKind.AT_MOST_ONCE)}
     return fold(default, ::identity)
 }
+
+/**
+ * Returns the value from this [Right] or null if this is a [Left].
+ *
+ * Example:
+ * ```kotlin
+ * import arrow.core.Either.Right
+ * import arrow.core.Either.Left
+ *
+ * fun main() {
+ *   Right(12).orNUll() // Result: 12
+ *   Left(12).orNull() // Result: null
+ * }
+ * ```
+ */
+@Deprecated(
+    "Duplicated API. Please use Either's member function orNull. This will be removed towards Arrow 2.0",
+    ReplaceWith("orNull()")
+)
+public fun <B> Either<*, B>.orNull(): B? =
+    orNull()
 
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
