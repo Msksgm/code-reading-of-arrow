@@ -214,6 +214,14 @@ public sealed class Either<out A, out B> {
     public inline fun <C> bifoldMap(MN: Monoid<C>, f: (A) -> C, g: (B) -> C) : C =
         fold(f, g)
 
+    @Deprecated(
+        "orNone is being renamed to getOrNone to be more consistent with the Kotlin Starndard Library naming",
+        ReplaceWith("getOrNone()")
+    )
+    public fun orNone(): Option<B> = getOrNone()
+
+    public fun getOrNone(): Option<B> = fold({ None }, { Some(it) })
+
     public companion object {
 
         @Deprecated(

@@ -149,4 +149,10 @@ class EitherTest : StringSpec({
             Either.Right(a).orNull() shouldBe a
         }
     }
+
+    "orNone should return Some(value)" {
+        checkAll(Arb.int()) { a: Int ->
+            Either.Right(a).orNone() shouldBe Some(a)
+        }
+    }
 })
