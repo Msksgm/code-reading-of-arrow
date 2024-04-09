@@ -161,4 +161,11 @@ class EitherTest : StringSpec({
             Either.Left(a).orNone() shouldBe None
         }
     }
+
+    "getOrHandle should value" {
+        checkAll(Arb.int(), Arb.int()) { a: Int, b: Int ->
+            Either.Right(a).getOrHandle { b } shouldBe a
+            Either.Left(a).getOrHandle { it + b } shouldBe a + b
+        }
+    }
 })

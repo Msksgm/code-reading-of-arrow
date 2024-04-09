@@ -304,6 +304,28 @@ public inline infix fun <A, B> Either<A, B>.getOrElse(default: (A) -> B): B {
 public fun <B> Either<*, B>.orNull(): B? =
     orNull()
 
+/**
+ * Returns the value from this [Right] or allows clients to transform the value from [Left] with the [default] lambda.
+ *
+ * Example:
+ * ```kotlin
+ * import arrow.core.Either.Right
+ * import arrow.core.Either.Left
+ * import arrow.core.getOrHandle
+ *
+ * fun main() {
+ *   Right(12).getOrHandle { 17 } // Result: 12
+ *   Left(12).getOrHandle { it + 5 } // Result: 17
+ * }
+ * ```
+ */
+@Deprecated(
+    RedundantAPI + "Use other getOrElse signatrure",
+    ReplaceWith("getOrElse(default)")
+)
+public inline fun <A, B> Either<A, B>.getOrHandle(default: (A) -> B): B =
+    fold({ default(it) }, ::identity)
+
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
 
