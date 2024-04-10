@@ -265,6 +265,20 @@ public inline fun <B> Either<*, B>.getOrElse(default: () -> B): B =
     fold({ default() }, ::identity)
 
 /**
+ * Map, or transform, the right value [B] of this [Either] into a new [Either] with right value of type [C].
+ * Returns a ne [Either] with either the original left value of type [A] or the newly transformed right value of type [C].
+ *
+ * @param f The function to bind across Right
+ */
+public inline fun <A, B, C> Either<A, B>.flatMap(f: (right: B) -> Either<A, C>): Either<A, C> {
+    contract { callsInPlace(f, InvocationKind.AT_MOST_ONCE) }
+    return when (this) {
+        is Either.Left -> this
+        is Either.Right -> f(value)
+    }
+}
+
+/**
  * Get thr right value [B] of this [Either],
  * or compute a [default] value with the left value [A].
  *
@@ -325,6 +339,38 @@ public fun <B> Either<*, B>.orNull(): B? =
 )
 public inline fun <A, B> Either<A, B>.getOrHandle(default: (A) -> B): B =
     fold({ default(it) }, ::identity)
+
+/**
+ * Returns [Right] with existing value of [Right] if this is a [Right] and the given predicate
+ * holds for the right value.<br>
+ *
+ * Returns `Left(default)` if this is a [Right] and the given predicate does not
+ * hold ofr the right value.<br>
+ *
+ * Returns [Left] with the existing value of [Left] if this is a [Left].
+ *
+ * Example:
+ * ```kotlin
+ * import arrow.core.Either.*
+ * import arrow.core.Either
+ * import arrow.core.filterOrElse
+ *
+ * fun main() {
+ *   Right(12).filterOrElse({ it > 10 }, { -1 }) // Result: Right(12)
+ *   Right(7).filterOrElse({ it > 10 }, { -1 }) // Result: Right(-1)
+ *
+ *   val left: Either<Int, Int> = Left(12)
+ *   left.filterOrElse({ it > 10 }, { -1 }) // Result: Left(12)
+ * }
+ * ```
+ *
+ */
+@Deprecated(
+    RedundantAPI + "Prefer if-else statement inside either DSL, or replace with explicit flatMap",
+    ReplaceWith("this.flatMap { if (predicate(it)) Either.Right(it) else Either.Left(default(it)) }")
+)
+public inline fun <A, B> Either<A, B>.filterOrElse(predicate: (B) -> Boolean, default: () -> A): Either<A, B> =
+    flatMap { if (predicate(it)) Either.Right(it) else Either.Left(default()) }
 
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
