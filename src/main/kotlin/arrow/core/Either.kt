@@ -372,6 +372,43 @@ public inline fun <A, B> Either<A, B>.getOrHandle(default: (A) -> B): B =
 public inline fun <A, B> Either<A, B>.filterOrElse(predicate: (B) -> Boolean, default: () -> A): Either<A, B> =
     flatMap { if (predicate(it)) Either.Right(it) else Either.Left(default()) }
 
+/**
+ * Returns [Right] with the existing value of [Right] if this is a [Right] and the given
+ * predicate holds for the right value.<br>
+ *
+ * Returns `Left(default(right))` if this is a [Right] and the given predicate does not
+ * hold for the right value. Useful for error handling where 'default' returns a message with context on why the value
+ * did not pass the filter<br>
+ *
+ * Returns [Left] with the existing value of [Left] if this is a [Left].<br>
+ *
+ * Example:
+ *
+ * ```kotlin
+ * import arrow.core.*
+ *
+ * suspend fun main(): Unit {
+ *   //sampleStart
+ *   Either.Right(7).filterOrOther({ it == 10 }, { "Value '$it' is not equal to 10" })
+ *     .let(::println) // Either.Left(Value '7' is not equal to 10")
+ *
+ *   Either.Right(10).filterOrOther({ it == 10 }, { "Value '$it' is not equal to 10" })
+ *     .let(::println) // Either.Right(10)
+ *
+ *   Either.Left(12).filterOrOther({ str: String -> str.contains("impossible") }, { -1 })
+ *     .let(::println) // Either.Left(12)
+ *
+ *   //sampleEnd
+ * }
+ * ```
+ */
+@Deprecated(
+    RedundantAPI + "Prefer if-else statemnt inside either DSL, or replace with explicit flatMap",
+    ReplaceWith("this.flatMap { if (predicate(it)) Either.Right(it) else Either.Left(default(it)) }")
+)
+public inline fun <A, B> Either<A, B>.filterOrOther(predicate: (B) -> Boolean, default: (B) -> A): Either<A, B> =
+    flatMap { if (predicate(it)) Either.Right(it) else Either.Left(default(it)) }
+
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
 

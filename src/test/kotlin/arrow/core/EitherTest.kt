@@ -179,4 +179,15 @@ class EitherTest : StringSpec({
             left.filterOrElse( { it > a +1 }, { b }) shouldBe Either.Left(a)
         }
     }
+
+    "filterOrOther should filter values" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val left: Either<Int, Int> = Either.Left(a)
+
+            Either.Right(a).filterOrOther( { it > a - 1 }, { b }) shouldBe Either.Right(a)
+            Either.Right(a).filterOrOther( { it > a + 1 }, { b }) shouldBe Either.Left(b)
+            left.filterOrOther( { it > a -1 }, { b }) shouldBe Either.Left(a)
+            left.filterOrOther( { it > a +1 }, { b }) shouldBe Either.Left(a)
+        }
+    }
 })
