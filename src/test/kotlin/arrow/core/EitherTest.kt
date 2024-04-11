@@ -190,4 +190,12 @@ class EitherTest : StringSpec({
             left.filterOrOther( { it > a +1 }, { b }) shouldBe Either.Left(a)
         }
     }
+
+    "leftIfNull should return Left if Right value is null of if Either is Left" {
+        checkAll(Arb.int()) { a: Int ->
+            Either.Right(a).leftIfNull { a } shouldBe Either.Right(a)
+            Either.Right(null).leftIfNull { a } shouldBe Either.Left(a)
+            Either.Left(a).leftIfNull { a } shouldBe Either.Left(a)
+        }
+    }
 })

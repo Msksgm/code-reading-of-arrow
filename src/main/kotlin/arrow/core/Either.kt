@@ -409,6 +409,34 @@ public inline fun <A, B> Either<A, B>.filterOrElse(predicate: (B) -> Boolean, de
 public inline fun <A, B> Either<A, B>.filterOrOther(predicate: (B) -> Boolean, default: (B) -> A): Either<A, B> =
     flatMap { if (predicate(it)) Either.Right(it) else Either.Left(default(it)) }
 
+/**
+ * Returns [Right] with the existing value of [Right] if this is an [Right] with a non-null value.
+ * The returned Either.Right type is not nullable.
+ *
+ * Returns `Left(default())` if this is an [Right] and the existing value is null
+ *
+ * Returns [Left] with the existing value of [Left] if this is an [Left].
+ *
+ * Example:
+ * ```kotlin
+ * import arrow.core.Either.*
+ * import arrow.core.leftIfNull
+ *
+ * fun main() {
+ *   Right(12).leftIfNUll({ -1 }) // Result: Right(12)
+ *   Right(null).leftIfNull({ -1 }) // Result: Right(-1)
+ *
+ *   Left(12).leftIfNull({ -1 }) // Result: Left(12)
+ * }
+ * ```
+ */
+@Deprecated(
+    RedundantAPI + "Prefer Kotlin nullable syntax inside DSL, or replace with explicit flatMap",
+    ReplaceWith("flatMap { b -> b?.right() ?: default().left() ")
+)
+public inline fun <A, B> Either<A, B?>.leftIfNull(default: () -> A): Either<A, B> =
+    flatMap { b -> b?.right() ?: default().left() }
+
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
 
