@@ -198,4 +198,15 @@ class EitherTest : StringSpec({
             Either.Left(a).leftIfNull { a } shouldBe Either.Left(a)
         }
     }
+
+    "exists should apply predicate to Right only" {
+        checkAll(Arb.intSmall()) { a ->
+            val left: Either<Int, Int> = Either.Left(a)
+
+            Either.Right(a).exists { it > a - 1 } shouldBe true
+            !Either.Right(a).exists { it > a + 1 } shouldBe true
+            !left.exists { it > a - 1 } shouldBe true
+            !left.exists { it > a + 1 } shouldBe true
+        }
+    }
 })

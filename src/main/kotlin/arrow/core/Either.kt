@@ -118,6 +118,32 @@ public sealed class Either<out A, out B> {
         return also { if (it.isLeft()) action(it.value) }
     }
 
+    /**
+     * Returns `false` if [Left] or returns the result of the application of
+     * the given predicate to the [Right] value
+     *
+     * Example:
+     * ```kotlin
+     * import arrow.core.Either
+     * import arrow.core.Either.left
+     *
+     * fun main() {
+     *   Either.Right(12).exists { it > 10 } // Result: true
+     *   Either.Right(7).exists { it > 10 } // Result: false
+     *
+     *   val left: Either<Int, Int> = Left(12)
+     *   left.exists { it > 10 }
+     * }
+     * ```
+     *
+     */
+    @Deprecated(
+        NicheAPI + "Prefer isRight",
+        ReplaceWith("isRight()")
+    )
+    public inline fun exists(predicate: (B) -> Boolean): Boolean =
+        fold({ false }, predicate)
+
     @Deprecated(
         "orNull is being renamed to getOrNull to be more consistent with the Kotlin Standard Library naming",
         ReplaceWith("getOrNull()")
