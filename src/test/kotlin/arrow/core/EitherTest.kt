@@ -209,4 +209,11 @@ class EitherTest : StringSpec({
             !left.exists { it > a + 1 } shouldBe true
         }
     }
+
+    "rightIfNotNull should return Left if value is null or Right of value when not null" {
+        checkAll(Arb.int(), Arb.int()) { a: Int, b: Int ->
+            null.rightIfNotNull { b } shouldBe Either.Left(b)
+            a.rightIfNotNull { b } shouldBe Either.Right(a)
+        }
+    }
 })

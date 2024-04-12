@@ -263,6 +263,28 @@ public fun <A> A.left(): Either<A, Nothing> = Either.Left(this)
 
 public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
 
+/**
+ * Returns [Right] if the value of type B is not null, otherwise the specified A value wrapped into an
+ * [Left].
+ *
+ * Example:
+ * ```kotlin
+ * import arrow.core.rightIfNotNull
+ *
+ * fun main() {
+ *   "value".rightIfNotNull { "left" } // Right(b="value")
+ *   null.rightIfNotNull { "left" } // Left(a="left")
+ * }
+ * ```
+ *
+ */
+@Deprecated(
+    RedundantAPI + "Prefer Kotlin nullable syntax",
+    ReplaceWith("this?.right() ?: default().left()")
+)
+public inline fun <A, B> B?.rightIfNotNull(default: () -> A): Either<A, B> =
+    this?.right() ?: default().left()
+
 public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) -> A, combineRight: (B, B) -> B): Either<A, B> =
     when (val one = this){
         is Either.Left -> when (other) {
