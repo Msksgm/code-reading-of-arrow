@@ -285,6 +285,17 @@ public fun <A> A.right(): Either<Nothing, A> = Either.Right(this)
 public inline fun <A, B> B?.rightIfNotNull(default: () -> A): Either<A, B> =
     this?.right() ?: default().left()
 
+/**
+ * Returns [Right] if the value of type Any? is null, otherwise the specified A value wrapped into an
+ * [Left].
+ */
+@Deprecated(
+    RedundantAPI + "Prefer Kotlin nullable syntax",
+    ReplaceWith("this?.let { default().left() } ?: null.right()")
+)
+public inline fun <A> Any?.rightIfNull(default: () -> A): Either<A, Nothing?> =
+    this?.let { default().left()} ?: null.right()
+
 public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) -> A, combineRight: (B, B) -> B): Either<A, B> =
     when (val one = this){
         is Either.Left -> when (other) {
