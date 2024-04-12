@@ -512,6 +512,32 @@ public inline fun <A, B> Either<A, B>.filterOrOther(predicate: (B) -> Boolean, d
 public inline fun <A, B> Either<A, B?>.leftIfNull(default: () -> A): Either<A, B> =
     flatMap { b -> b?.right() ?: default().left() }
 
+/**
+ * Returns `true` if this is a [Right] and its value is equal to `elem` (as determined by '==')
+ * returns `false` otherwise.
+ *
+ * Example:
+ * ```kotlin
+ * import arrow.core.Either.Right
+ * import arrow.core.Either.Left
+ * import arrow.core.contains
+ *
+ * fun main() {
+ *   Right("something").contains("something") // Result: true
+ *   Right("something").contains("anything")  // Result: false
+ *   Right("something").contains("something") // Result: false
+ * }
+ *
+ * ```
+ *
+ */
+@Deprecated(
+    RedundantAPI + "Prefer the Either DSL, or replace with explicit fold",
+    ReplaceWith("fold({ false }) { it == elem }")
+)
+public fun <A, B> Either<A, B>.contains(elem: B): Boolean =
+    fold({ false }) { it == elem }
+
 public const val RedundantAPI: String =
     "This API is considered redundant. If this method is crucial for you, please let us know on the Arrow Github. Thanks!\n https://github.com/arrow-kt/arrow/issues\n"
 

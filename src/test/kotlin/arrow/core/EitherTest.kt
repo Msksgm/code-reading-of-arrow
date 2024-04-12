@@ -240,4 +240,13 @@ class EitherTest : StringSpec({
             left.orNull() shouldBe null
         }
     }
+
+    "contains should check value" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            require(Either.Right(a).contains(a)) { "Expected ${Either.Right(a)}.contains($a) to be true, but it was false."}
+            if (a != b) require(!Either.Right(a).contains(b)) { "Expected ${Either.Right(a)}.contains($b) to be false, but it was true."}
+            else require(Either.Right(a).contains(b)) { "Expected ${Either.Right(a)}.contains($b) to be true, but it was false."}
+            require(!Either.Left(a).contains(a)) { "Expected ${Either.Left(a)}.contains($a) to be false, but it was true."}
+        }
+    }
 })
