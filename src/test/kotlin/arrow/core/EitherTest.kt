@@ -231,4 +231,13 @@ class EitherTest : StringSpec({
             Either.Right(a).swap() shouldBe Either.Left(a)
         }
     }
+
+    "orNull should convert" {
+        checkAll(Arb.int()) { a: Int ->
+            val left: Either<Int, Int> = Either.Left(a)
+
+            Either.Right(a).orNull() shouldBe a
+            left.orNull() shouldBe null
+        }
+    }
 })
