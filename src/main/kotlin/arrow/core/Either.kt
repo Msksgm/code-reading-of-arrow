@@ -240,6 +240,22 @@ public sealed class Either<out A, out B> {
     public inline fun <C> bifoldMap(MN: Monoid<C>, f: (A) -> C, g: (B) -> C) : C =
         fold(f, g)
 
+    /**
+     * Swap the generic parameters [A] and [B] of this [Either].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Left("left").swap() shouldBe Either.Right("left")
+     *   Either.Right("right").swap() shouldBe Either.Left("right")
+     * }
+     * ```
+     */
+    public fun swap(): Either<B, A> =
+        fold({ Right(it) }, { Left(it) })
+
     @Deprecated(
         "orNone is being renamed to getOrNone to be more consistent with the Kotlin Starndard Library naming",
         ReplaceWith("getOrNone()")

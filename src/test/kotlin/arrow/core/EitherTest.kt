@@ -224,4 +224,11 @@ class EitherTest : StringSpec({
             null.rightIfNull { b } shouldBe Either.Right(null)
         }
     }
+
+    "swap should interchange values" {
+        checkAll(Arb.int()) { a: Int ->
+            Either.Left(a).swap() shouldBe Either.Right(a)
+            Either.Right(a).swap() shouldBe Either.Left(a)
+        }
+    }
 })
