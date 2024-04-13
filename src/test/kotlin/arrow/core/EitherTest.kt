@@ -259,4 +259,14 @@ class EitherTest : StringSpec({
             left.map { it + 1 } shouldBe left
         }
     }
+
+    "mapLeft should alter left instance only" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.mapLeft { it + 1 } shouldBe right
+            left.mapLeft { it + 1 } shouldBe Either.Left(b + 1)
+        }
+    }
 })

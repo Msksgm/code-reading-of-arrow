@@ -277,6 +277,26 @@ public sealed class Either<out A, out B> {
         return flatMap { Right(f(it)) }
     }
 
+    /**
+     * Map, or transform, the left value [A] of this [Either] to a new value [C].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Right(12).mapLeft { _: Nothing -> "flower" } shouldBe Either.Right(12)
+     *   Either.Left(12).mapLeft { _: Int -> "flower" } shouldBe Either.Left("flower")
+     * }
+     * ```
+     */
+    public inline fun <C> mapLeft(f: (A) -> C): Either<C, B> {
+        contract {
+            callsInPlace(f, InvocationKind.AT_MOST_ONCE)
+        }
+        return fold({ Left(f(it)) }, { Right(it) })
+    }
+
     @Deprecated(
         "orNone is being renamed to getOrNone to be more consistent with the Kotlin Starndard Library naming",
         ReplaceWith("getOrNone()")
