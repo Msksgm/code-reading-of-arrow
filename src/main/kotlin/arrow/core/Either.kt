@@ -256,6 +256,27 @@ public sealed class Either<out A, out B> {
     public fun swap(): Either<B, A> =
         fold({ Right(it) }, { Left(it) })
 
+    /**
+     * Map, or transform, the right value [B] of this [Either] to a new value [C].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Right(12).map { _: Int ->"flower" } shouldBe Either.Right("flower")
+     *   Either.Left(12).map { _: Nothing -> "flower" } shouldBe Either.Left(12)
+     * }
+     * ```
+     *
+     */
+    public inline fun <C> map(f: (right: B) -> C): Either<A, C> {
+        contract {
+            callsInPlace(f, InvocationKind.AT_MOST_ONCE)
+        }
+        return flatMap { Right(f(it)) }
+    }
+
     @Deprecated(
         "orNone is being renamed to getOrNone to be more consistent with the Kotlin Starndard Library naming",
         ReplaceWith("getOrNone()")

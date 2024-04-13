@@ -249,4 +249,14 @@ class EitherTest : StringSpec({
             require(!Either.Left(a).contains(a)) { "Expected ${Either.Left(a)}.contains($a) to be false, but it was true."}
         }
     }
+
+    "map should alter right instance only" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.map { it + 1 } shouldBe Either.Right(a + 1)
+            left.map { it + 1 } shouldBe left
+        }
+    }
 })
