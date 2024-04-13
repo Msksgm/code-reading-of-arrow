@@ -119,6 +119,16 @@ public sealed class Either<out A, out B> {
     }
 
     /**
+     * Map over Left and Right of this Either
+     */
+    @Deprecated(
+        NicheAPI + "Prefer using the Either DSL, or map + mapLeft",
+        ReplaceWith("map(rightOperation).mapLeft(leftOperation)")
+    )
+    public inline fun <C, D> bimap(leftOperation: (left: A) -> C, rightOperation: (right: B) -> D): Either<C, D> =
+        map(rightOperation).mapLeft(leftOperation)
+
+    /**
      * Returns `false` if [Left] or returns the result of the application of
      * the given predicate to the [Right] value
      *

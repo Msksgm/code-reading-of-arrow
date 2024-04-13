@@ -269,4 +269,14 @@ class EitherTest : StringSpec({
             left.mapLeft { it + 1 } shouldBe Either.Left(b + 1)
         }
     }
+
+    "bimap should alter left or right instance accordingly" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.bimap({ it + 2 }, { it + 1}) shouldBe Either.Right(a + 1)
+            left.bimap({ it + 2 }, { it + 1}) shouldBe Either.Left(b + 2)
+        }
+    }
 })
