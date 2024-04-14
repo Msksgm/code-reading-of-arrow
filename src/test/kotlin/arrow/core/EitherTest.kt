@@ -293,4 +293,14 @@ class EitherTest : StringSpec({
             Either.Left(a).replicate(n) shouldBe expected
         }
     }
+
+    "replicate should return Right(list of repeated value size n) when Right and n is positive" {
+        checkAll(
+            Arb.int(1..10),
+            Arb.int()
+        ) { n: Int, a: Int ->
+            Either.Right(a).replicate(n) shouldBe Either.Right(List(n) { a })
+            Either.Left(a).replicate(n) shouldBe Either.Left(a)
+        }
+    }
 })
