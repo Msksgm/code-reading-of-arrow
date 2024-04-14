@@ -303,4 +303,16 @@ class EitherTest : StringSpec({
             Either.Left(a).replicate(n) shouldBe Either.Left(a)
         }
     }
+
+    "traverse should return list of Right when Right and singleton list when Left" {
+        checkAll(
+            Arb.int(),
+            Arb.int(),
+            Arb.int()
+        ) { a: Int, b: Int, c: Int ->
+            Either.Right(a).traverse { emptyList<Int>() } shouldBe emptyList<Int>()
+            Either.Right(a).traverse { listOf(b, c) } shouldBe listOf(Either.Right(b), Either.Right(c))
+            Either.Left(a).traverse { listOf(b, c) } shouldBe listOf(Either.Left(a))
+        }
+    }
 })

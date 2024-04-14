@@ -8,6 +8,7 @@ import arrow.typeclasses.combine
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
+import kotlin.experimental.ExperimentalTypeInference
 
 fun main(args: Array<String>) {
     val left: Either<String, Int> = Either.Left("foo")
@@ -321,6 +322,19 @@ public sealed class Either<out A, out B> {
     )
     public fun replicate(n: Int): Either<A, List<B>> =
         if (n <= 0) Right(emptyList()) else map { b -> List(n) { b } }
+
+    @Deprecated(
+        NicheAPI + "Prefer using the Either DSL, or explicit fold or when",
+        ReplaceWith(
+            "fold({ listOf(it.left()) }, { fa(it).map(::Right) })",
+            "arrow.core.Either.Right",
+            "arrow.core.Either.left"
+        )
+    )
+    @OptIn(ExperimentalTypeInference::class)
+    @OverloadResolutionByLambdaReturnType
+    public inline fun <C> traverse(fa: (B) -> Iterable<C>): List<Either<A, C>> =
+        fold({ listOf(it.left()) }, { fa(it).map(::Right)})
 
     public companion object {
 
