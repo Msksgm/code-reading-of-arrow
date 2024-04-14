@@ -315,4 +315,14 @@ class EitherTest : StringSpec({
             Either.Left(a).traverse { listOf(b, c) } shouldBe listOf(Either.Left(a))
         }
     }
+
+    "flatMap should map right instance only" {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.flatMap { Either.Right(it + 1) } shouldBe Either.Right(a + 1)
+            left.flatMap { Either.Right(it + 1) } shouldBe left
+        }
+    }
 })
