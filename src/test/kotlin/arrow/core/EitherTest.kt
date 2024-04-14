@@ -10,6 +10,7 @@ import io.kotest.property.checkAll
 import arrow.core.test.either
 import arrow.core.test.laws.intSmall
 import arrow.typeclasses.Monoid
+import io.kotest.property.arbitrary.nonPositiveInt
 import io.kotest.property.arbitrary.string
 
 class EitherTest : StringSpec({
@@ -277,6 +278,19 @@ class EitherTest : StringSpec({
 
             right.bimap({ it + 2 }, { it + 1}) shouldBe Either.Right(a + 1)
             left.bimap({ it + 2 }, { it + 1}) shouldBe Either.Left(b + 2)
+        }
+    }
+
+    "replicate should return Right(empty list) when n <=0" {
+        checkAll(
+            Arb.nonPositiveInt(),
+            Arb.int(0..100)
+        ) { n: Int, a: Int ->
+            val expected: Either<Int, List<Int>> = Either.Right(emptyList())
+
+            Either.Right(a).replicate(n) shouldBe expected
+
+            Either.Left(a).replicate(n) shouldBe expected
         }
     }
 })

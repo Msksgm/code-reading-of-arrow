@@ -315,6 +315,13 @@ public sealed class Either<out A, out B> {
 
     public fun getOrNone(): Option<B> = fold({ None }, { Some(it) })
 
+    @Deprecated(
+        NicheAPI + "Prefer using the EitherDSL, or map",
+        ReplaceWith("if ( n <= 0 ) Right(emptyList()) else map { b -> List(n) { b } }")
+    )
+    public fun replicate(n: Int): Either<A, List<B>> =
+        if (n <= 0) Right(emptyList()) else map { b -> List(n) { b } }
+
     public companion object {
 
         @Deprecated(
