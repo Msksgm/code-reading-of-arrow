@@ -344,6 +344,25 @@ public sealed class Either<out A, out B> {
         )
         @JvmStatic
         public fun <A> fromNullable(a: A?): Either<Unit, A> = a?.right() ?: Unit.left()
+
+        /**
+         * Will create an [Either] from the result of evaluating the first parameter using the functions
+         * provided on second and third parameters. Second parameter represents function for creating
+         * an [Left] in case of a false result of evaluation and third parameter will be used
+         * to create a [Right] in case of a true result.
+         *
+         * @param test expression to evaluate and build an [Either]
+         * @param ifFalse function to create a [Left] in case of false result of test
+         * @param ifTrue function to create a [Right] in case of true result of test
+         *
+         * @return [Right] if evaluation succeed, [Left] otherwise
+         */
+        @Deprecated(
+            RedundantAPI + "Prefer explicit if-else statements, or ensure inside Either DSL",
+            ReplaceWith("if (test) Right(ifTrue()) else Left(ifFalse())")
+        )
+        public inline fun <L, R> conditionally(test: Boolean, ifFalse: () -> L, ifTrue: () -> R): Either<L, R> =
+            if (test) ifTrue().right() else ifFalse().left()
     }
 }
 

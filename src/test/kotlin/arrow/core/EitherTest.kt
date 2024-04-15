@@ -10,6 +10,7 @@ import io.kotest.property.checkAll
 import arrow.core.test.either
 import arrow.core.test.laws.intSmall
 import arrow.typeclasses.Monoid
+import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.nonPositiveInt
 import io.kotest.property.arbitrary.string
 
@@ -323,6 +324,13 @@ class EitherTest : StringSpec({
 
             right.flatMap { Either.Right(it + 1) } shouldBe Either.Right(a + 1)
             left.flatMap { Either.Right(it + 1) } shouldBe left
+        }
+    }
+
+    "conditionally should create right instance only if test is true" {
+        checkAll(Arb.boolean(), Arb.int(), Arb.string()) { t: Boolean, i: Int , s: String ->
+            val expected = if (t) Either.Right(i) else Either.Left(s)
+            Either.conditionally(t, { s }, { i }) shouldBe expected
         }
     }
 })
