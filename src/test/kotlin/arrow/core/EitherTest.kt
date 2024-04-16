@@ -333,4 +333,21 @@ class EitherTest : StringSpec({
             Either.conditionally(t, { s }, { i }) shouldBe expected
         }
     }
+
+    "combine should combine 2 eithers" {
+        checkAll(Arb.either(Arb.string(), Arb.int()), Arb.either(Arb.string(), Arb.int())) { e1, e2 ->
+            val obtained = e1.combine(e2, { l1, l2 -> l1 + l2 }, { r1, r2 -> r1 + r2 })
+            val expected = when(e1){
+                is Either.Left -> when(e2) {
+                    is Either.Left -> Either.Left(e1.value + e2.value)
+                    is Either.Right -> e1
+                }
+                is Either.Right -> when(e2) {
+                    is Either.Left -> e2
+                    is Either.Right -> Either.Right(e1.value + e2.value)
+                }
+            }
+            obtained shouldBe expected
+        }
+    }
 })
