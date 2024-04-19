@@ -2,7 +2,9 @@
 
 package arrow.core
 
+import arrow.core.Either.Right.Companion.unit
 import arrow.typeclasses.Monoid
+import arrow.typeclasses.MonoidDeprecation
 import arrow.typeclasses.Semigroup
 import arrow.typeclasses.combine
 import kotlin.contracts.ExperimentalContracts
@@ -338,6 +340,54 @@ public sealed class Either<out A, out B> {
 
     public companion object {
 
+        public inline fun <E, A, B, Z> zipOrAccumulate(
+            combine: (E, E) -> E,
+            a: Either<E, A>,
+            b: Either<E, B>,
+            transform: (A, B) -> Z,
+        ): Either<E, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return zipOrAccumulate(combine, a, b, unit, unit, unit, unit, unit, unit, unit, unit) { aa, bb, _, _, _, _, _, _, _, _ ->
+                transform(aa, bb)
+            }
+        }
+
+        @Suppress("DuplicatedCode")
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, J, Z> zipOrAccumulate(
+            combine: (E, E) -> E,
+            a: Either<E, A>,
+            b: Either<E, B>,
+            c: Either<E, C>,
+            d: Either<E, D>,
+            e: Either<E, EE>,
+            f: Either<E, F>,
+            g: Either<E, G>,
+            h: Either<E, H>,
+            i: Either<E, I>,
+            j: Either<E, J>,
+            transform: (A, B, C, D, EE, F, G, H, I, J) -> Z,
+        ): Either<E, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return if (a is Right && b is Right && c is Right && d is Right && e is Right && f is Right && g is Right && h is Right && i is Right && j is Right) {
+                Right(transform(a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value, i.value, j.value))
+            } else {
+                var accumulatedError: Any? = EmptyValue
+                accumulatedError = if (a is Left) a.value else accumulatedError
+                accumulatedError = if (b is Left) EmptyValue.combine(accumulatedError, b.value, combine) else accumulatedError
+                accumulatedError = if (c is Left) EmptyValue.combine(accumulatedError, c.value, combine) else accumulatedError
+                accumulatedError = if (d is Left) EmptyValue.combine(accumulatedError, d.value, combine) else accumulatedError
+                accumulatedError = if (e is Left) EmptyValue.combine(accumulatedError, e.value, combine) else accumulatedError
+                accumulatedError = if (f is Left) EmptyValue.combine(accumulatedError, f.value, combine) else accumulatedError
+                accumulatedError = if (g is Left) EmptyValue.combine(accumulatedError, g.value, combine) else accumulatedError
+                accumulatedError = if (h is Left) EmptyValue.combine(accumulatedError, h.value, combine) else accumulatedError
+                accumulatedError = if (i is Left) EmptyValue.combine(accumulatedError, i.value, combine) else accumulatedError
+                accumulatedError = if (j is Left) EmptyValue.combine(accumulatedError, j.value, combine) else accumulatedError
+
+                @Suppress("UNCHECKED_CAST")
+                (Left(accumulatedError as E))
+            }
+        }
+
         @Deprecated(
             RedundantAPI + "Prefer Kotlin nullable syntax, or ensureNotNull inside Either DSL",
             ReplaceWith("a?.right() ?: Unit.left()")
@@ -422,6 +472,15 @@ public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) 
 )
 public fun <A, B> Either<A, B>.combine(SGA: Semigroup<A>, SGB: Semigroup<B>, b: Either<A, B>): Either<A, B> =
     combine(b, SGA::combine, SGB::combine)
+
+@Deprecated(
+    MonoidDeprecation,
+    ReplaceWith(
+        "this.fold<Either<A, B>, Either<A, B>>(initialValue.right()) { x, y -> Either.zipOrAccumulate<A, B, B, B>({a1, a2 -> a1 + a2}, x, y, {b1, b2 -> b1 + b2}) }"
+    )
+)
+public fun <A, B> Iterable<Either<A, B>>.combineAll(MA: Monoid<A>, MB: Monoid<B>): Either<A, B> =
+    fold<Either<A, B>, Either<A, B>>(MB.empty().right()) { x, y -> Either.zipOrAccumulate(MA::combine, x, y, MB::combine)}
 
 @Deprecated(
     RedundantAPI + "This API is overloaded with an API with a single argument",

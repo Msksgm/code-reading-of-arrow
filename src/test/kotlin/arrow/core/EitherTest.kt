@@ -11,6 +11,7 @@ import arrow.core.test.either
 import arrow.core.test.laws.intSmall
 import arrow.typeclasses.Monoid
 import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.list
 import io.kotest.property.arbitrary.nonPositiveInt
 import io.kotest.property.arbitrary.string
 
@@ -347,6 +348,21 @@ class EitherTest : StringSpec({
                     is Either.Right -> Either.Right(e1.value + e2.value)
                 }
             }
+            obtained shouldBe expected
+        }
+    }
+
+    "combineAll replacement should work" {
+        checkAll(Arb.list(Arb.either(Arb.string(), Arb.int()))) { list ->
+            val obtained = list.fold<Either<String, Int>, Either<String, Int>>(0.right()) { x, y ->
+                Either.zipOrAccumulate<String, Int, Int, Int>(
+                    { a1, a2 -> a1 + a2},
+                    x,
+                    y,
+                    { b1, b2 -> b1 + b2}
+                )
+            }
+            val expected = list.combineAll(Monoid.string(), Monoid.int())
             obtained shouldBe expected
         }
     }
