@@ -366,4 +366,12 @@ class EitherTest : StringSpec({
             obtained shouldBe expected
         }
     }
+
+    "traverse should return list if either is right" {
+        val right: Either<String, Int> = Either.Right(1)
+        val left: Either<String, Int> = Either.Left("foo")
+
+        right.traverse { listOf(it, 2, 3) } shouldBe listOf(Either.Right(1), Either.Right(2), Either.Right(3))
+        left.traverse { listOf(it, 2, 3) } shouldBe listOf(Either.Left("foo"))
+    }
 })
