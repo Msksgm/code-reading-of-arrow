@@ -374,4 +374,10 @@ class EitherTest : StringSpec({
         right.traverse { listOf(it, 2, 3) } shouldBe listOf(Either.Right(1), Either.Right(2), Either.Right(3))
         left.traverse { listOf(it, 2, 3) } shouldBe listOf(Either.Left("foo"))
     }
+
+    "sequence should be consistent with traverse" {
+        checkAll(Arb.either(Arb.string(), Arb.int())) { either ->
+            either.map { listOf(it) }.sequence() shouldBe either.traverse { listOf(it) }
+        }
+    }
 })

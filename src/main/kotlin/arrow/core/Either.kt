@@ -483,6 +483,16 @@ public fun <A, B> Iterable<Either<A, B>>.combineAll(MA: Monoid<A>, MB: Monoid<B>
     fold<Either<A, B>, Either<A, B>>(MB.empty().right()) { x, y -> Either.zipOrAccumulate(MA::combine, x, y, MB::combine)}
 
 @Deprecated(
+    "Prefer Kotlin nullable syntax inside either DSL, or replace with explicit fold",
+    ReplaceWith(
+        "fold({ listOf<Either<A, B>>(it.left()) }, { iterable -> iterable.map<B, Either<A, B>> { it.right() } })",
+        "arrow.core.right", "arrow.core.left"
+    )
+)
+public fun <A, B> Either<A, Iterable<B>>.sequence(): List<Either<A, B>> =
+    fold({ listOf(it.left()) }, { iterable -> iterable.map { it.right() }})
+
+@Deprecated(
     RedundantAPI + "This API is overloaded with an API with a single argument",
     level = DeprecationLevel.HIDDEN
 )
