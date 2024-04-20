@@ -380,4 +380,13 @@ class EitherTest : StringSpec({
             either.map { listOf(it) }.sequence() shouldBe either.traverse { listOf(it) }
         }
     }
+
+    "traverseNullable should return non-nullable if either is right" {
+        val right: Either<String, Int> = Either.Right(1)
+        val left: Either<String, Int> = Either.Left("foo")
+
+        right.traverseNullable { it } shouldBe Either.Right(1)
+        right.traverseNullable { null } shouldBe null
+        left.traverseNullable { it } shouldBe left
+    }
 })

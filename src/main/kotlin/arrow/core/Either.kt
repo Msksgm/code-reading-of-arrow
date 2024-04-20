@@ -338,6 +338,13 @@ public sealed class Either<out A, out B> {
     public inline fun <C> traverse(fa: (B) -> Iterable<C>): List<Either<A, C>> =
         fold({ listOf(it.left()) }, { fa(it).map(::Right)})
 
+    @Deprecated(
+        RedundantAPI + "Use orNull() and Kotlin nullable types",
+        ReplaceWith("fold({ it.left() }) { fa(it)?.right() }", "arrow.core.left", "arrow.core.right")
+    )
+    public inline fun <C> traverseNullable(fa: (B) -> C?): Either<A, C>? =
+        fold({ it.left() }, { fa(it)?.right() })
+
     public companion object {
 
         public inline fun <E, A, B, Z> zipOrAccumulate(
