@@ -500,6 +500,18 @@ public fun <A, B> Either<A, Iterable<B>>.sequence(): List<Either<A, B>> =
     fold({ listOf(it.left()) }, { iterable -> iterable.map { it.right() }})
 
 @Deprecated(
+    "Prefer Kotlin nullable syntax",
+    ReplaceWith(
+        "this.fold<Either<A, B>?>({ it.left() }, { it?.right() })",
+        "arrow.core.Either",
+        "arrow.core.right",
+        "arrow.core.left"
+    )
+)
+public fun <A, B> Either<A, B?>.sequence(): Either<A, B>? =
+    this.fold<Either<A, B>?>({ it.left() }, { it?.right() })
+
+@Deprecated(
     RedundantAPI + "This API is overloaded with an API with a single argument",
     level = DeprecationLevel.HIDDEN
 )

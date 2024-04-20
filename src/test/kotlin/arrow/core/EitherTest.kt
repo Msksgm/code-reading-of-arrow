@@ -389,4 +389,12 @@ class EitherTest : StringSpec({
         right.traverseNullable { null } shouldBe null
         left.traverseNullable { it } shouldBe left
     }
+
+    "sequence for Nullbale should be consistent with traverseNullable" {
+        checkAll(Arb.either(Arb.string(), Arb.int())) { either ->
+            either.map { it }.sequence() shouldBe either.traverseNullable { it }
+            // wrong! if you map a `Left`, you should get a `Left` back, not null
+            // either.map { null }.sequence() shouldBe null
+        }
+    }
 })
