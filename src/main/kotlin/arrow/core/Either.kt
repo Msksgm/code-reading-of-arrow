@@ -339,6 +339,20 @@ public sealed class Either<out A, out B> {
         fold({ listOf(it.left()) }, { fa(it).map(::Right)})
 
     @Deprecated(
+        NicheAPI + "Prefer using the Either DSL, or explicit fold or when",
+        ReplaceWith(
+            "fold({ Some(it.left()) }, { right -> fa(right).map(::Right) })",
+            "arrow.core.Either.Right",
+            "arrow.core.Some",
+            "arrow.core.left"
+        )
+    )
+    @OptIn(ExperimentalTypeInference::class)
+    @OverloadResolutionByLambdaReturnType
+    public inline fun <C> traverse(fa: (B) -> Option<C>): Option<Either<A, C>> =
+        fold({ Some(it.left()) }, { right -> fa(right).map(::Right) })
+
+    @Deprecated(
         RedundantAPI + "Use orNull() and Kotlin nullable types",
         ReplaceWith("fold({ it.left() }) { fa(it)?.right() }", "arrow.core.left", "arrow.core.right")
     )

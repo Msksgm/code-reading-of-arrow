@@ -397,4 +397,14 @@ class EitherTest : StringSpec({
             // either.map { null }.sequence() shouldBe null
         }
     }
+
+    "traverse for Option should return option if either is right" {
+        val right: Either<String, Int> = Either.Right(1)
+        val left: Either<String, Int> = Either.Left("foo")
+
+        right.traverse { Some(it) } shouldBe Some(Either.Right(1))
+        right.traverse { None } shouldBe None
+        left.traverse { Some(it) } shouldBe Some(left)
+        left.traverse { None } shouldBe Some(left)
+    }
 })
