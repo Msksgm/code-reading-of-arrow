@@ -420,4 +420,12 @@ class EitherTest : StringSpec({
         left.bitraverse({ listOf(it, "bar", "baz") }, { listOf(it, 2, 3) }) shouldBe
                 listOf(Either.Left("foo"), Either.Left("bar"), Either.Left("baz"))
     }
+
+    "bisequence should be consistent with bitraverse" {
+        checkAll(Arb.either(Arb.string(), Arb.int())) { either ->
+            either.bimap({ listOf(it) }, { listOf(it) }).bisequence() shouldBe either.bitraverse(
+                { listOf(it) },
+                { listOf(it) })
+        }
+    }
 })

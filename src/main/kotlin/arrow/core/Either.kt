@@ -712,6 +712,9 @@ public inline fun <A, B> Either<A, B>.filterOrOther(predicate: (B) -> Boolean, d
 public inline fun <A, B> Either<A, B?>.leftIfNull(default: () -> A): Either<A, B> =
     flatMap { b -> b?.right() ?: default().left() }
 
+public fun <A, B> Either<Iterable<A>, Iterable<B>>.bisequence(): List<Either<A, B>> =
+    bitraverse(::identity, ::identity)
+
 /**
  * Returns `true` if this is a [Right] and its value is equal to `elem` (as determined by '==')
  * returns `false` otherwise.
