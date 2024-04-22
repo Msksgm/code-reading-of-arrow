@@ -353,6 +353,13 @@ public sealed class Either<out A, out B> {
         fold({ Some(it.left()) }, { right -> fa(right).map(::Right) })
 
     @Deprecated(
+        NicheAPI + "Prefer explicit fold instead",
+        ReplaceWith("fold({ fe(it).map { aa -> Left(aa) } }, { fa(it).map { c -> Right(c) } })")
+    )
+    public inline fun <AA, C> bitraverse(fe: (A) -> Iterable<AA>, fa: (B) -> Iterable<C>): List<Either<AA, C>> =
+        fold({ fe(it).map { aa -> Left(aa) } }, { fa(it).map { c -> Right(c) } })
+
+    @Deprecated(
         RedundantAPI + "Use orNull() and Kotlin nullable types",
         ReplaceWith("fold({ it.left() }) { fa(it)?.right() }", "arrow.core.left", "arrow.core.right")
     )

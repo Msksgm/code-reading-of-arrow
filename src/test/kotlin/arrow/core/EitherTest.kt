@@ -407,4 +407,17 @@ class EitherTest : StringSpec({
         left.traverse { Some(it) } shouldBe Some(left)
         left.traverse { None } shouldBe Some(left)
     }
+
+    "bitraverse should wrap either in a list" {
+        val right: Either<String, Int> = Either.Right(1)
+        val left: Either<String, Int> = Either.Left("foo")
+
+        right.bitraverse({ listOf(it, "bar", "baz") }, { listOf(it, 2, 3) }) shouldBe listOf(
+            Either.Right(1),
+            Either.Right(2),
+            Either.Right(3)
+        )
+        left.bitraverse({ listOf(it, "bar", "baz") }, { listOf(it, 2, 3) }) shouldBe
+                listOf(Either.Left("foo"), Either.Left("bar"), Either.Left("baz"))
+    }
 })
