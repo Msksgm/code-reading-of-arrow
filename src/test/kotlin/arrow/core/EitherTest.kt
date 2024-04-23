@@ -428,4 +428,15 @@ class EitherTest : StringSpec({
                 { listOf(it) })
         }
     }
+
+    "bitraverseNullable should wrap either in a nullable" {
+        val right: Either<String, Int> = Either.Right(1)
+        val left: Either<String, Int> = Either.Left("foo")
+
+        right.bitraverseNullable({ it }, { it.toString() }) shouldBe Either.Right("1")
+        left.bitraverseNullable({ it }, { it.toString() }) shouldBe Either.Left("foo")
+
+        right.bitraverseNullable({ it }, { null }) shouldBe null
+        left.bitraverseNullable({ null }, { it.toString() }) shouldBe null
+    }
 })
