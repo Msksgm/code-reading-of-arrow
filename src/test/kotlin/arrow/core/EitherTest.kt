@@ -439,4 +439,10 @@ class EitherTest : StringSpec({
         right.bitraverseNullable({ it }, { null }) shouldBe null
         left.bitraverseNullable({ null }, { it.toString() }) shouldBe null
     }
+
+    "bisequenceNullable should be consistent with bitraverseNullable" {
+        checkAll(Arb.either(Arb.string(), Arb.int())) { either ->
+            either.bimap({ it }, { it }).bisequenceNullable() shouldBe either.bitraverseNullable({ it }, { it })
+        }
+    }
 })

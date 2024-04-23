@@ -722,6 +722,9 @@ public inline fun <A, B> Either<A, B?>.leftIfNull(default: () -> A): Either<A, B
 public fun <A, B> Either<Iterable<A>, Iterable<B>>.bisequence(): List<Either<A, B>> =
     bitraverse(::identity, ::identity)
 
+public fun <A, B> Either<A?, B?>.bisequenceNullable(): Either<A, B>? =
+    bitraverseNullable(::identity, ::identity)
+
 /**
  * Returns `true` if this is a [Right] and its value is equal to `elem` (as determined by '==')
  * returns `false` otherwise.
