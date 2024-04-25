@@ -54,4 +54,18 @@ class EitherTest {
             res shouldBe either
         }
     }
+
+    @Test
+    fun tapLeftAppliesEffects() = runTest {
+        checkAll(Arb.either(Arb.long(), Arb.int())) { either ->
+            var effect = 0
+            val res = either.onLeft { effect += 1}
+            val expected = when (either) {
+                is Either.Left -> 1
+                is Either.Right -> 0
+            }
+            effect shouldBe expected
+            res shouldBe either
+        }
+    }
 }

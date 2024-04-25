@@ -71,4 +71,26 @@ public sealed class Either<out A, out B> {
         }
         return also { if (it.isRight()) action (it.value) }
     }
+
+    /**
+     * Performs the given [action] on the encapsulated [A] if this instance represents [Either.Left].
+     * Returns the original [Either] unchanged.
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Left(2).onLeft(::println) shouldBe Either.Left(2)
+     * }
+     * ```
+     * <!--- KNIT example-either-28.kt -->
+     * <!--- TEST lines.isEmpty() -->
+     */
+    public inline fun onLeft(action: (left: A) -> Unit): Either<A, B> {
+        contract {
+            callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+        }
+        return also { if (it.isLeft()) action (it.value) }
+    }
 }
