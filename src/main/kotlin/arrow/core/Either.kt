@@ -3,6 +3,7 @@
 package arrow.core
 
 import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 public sealed class Either<out A, out B> {
@@ -47,5 +48,27 @@ public sealed class Either<out A, out B> {
             @PublishedApi
             internal val unit: Right<Unit> = Right(Unit)
         }
+    }
+
+    /**
+     * Performs the given [action] on the encapsulated [B] value if this instance represents [EIther.Right].
+     * Returns the original [Either] unchanged.
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Right(1).onRight(::println) shouldBe Either.Right(1)
+     * }
+     * ```
+     * <!--- KNIT example-either-27.kt -->
+     * <!--- TEST lines.isEmpty() -->
+     */
+    public inline fun onRight(action: (right: B) -> Unit): Either<A, B> {
+        contract {
+            callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+        }
+        return also { if (it.isRight()) action (it.value) }
     }
 }

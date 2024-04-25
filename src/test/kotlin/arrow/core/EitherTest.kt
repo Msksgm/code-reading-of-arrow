@@ -7,6 +7,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import arrow.core.test.either
+import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.string
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -27,6 +28,30 @@ class EitherTest {
             if (x.isLeft()) x.value shouldBe a
             else fail("Left(a).isLeft() cannot be false")
             x.isRight() shouldBe false
+        }
+    }
+
+    @Test
+    fun rightIsLeftIsRight() = runTest {
+        checkAll(Arb.int()) { a: Int ->
+            val x = Either.Right(a)
+            if (x.isRight()) x.value shouldBe a
+            else fail("Right(a).isRight() cannot be false")
+            x.isLeft() shouldBe false
+        }
+    }
+
+    @Test
+    fun tapAppliesEffects() = runTest {
+        checkAll(Arb.either(Arb.long(), Arb.int())) { either ->
+            var effect = 0
+            val res = either.onRight { effect += 1}
+            val expected = when (either) {
+                is Either.Left -> 0
+                is Either.Right -> 1
+            }
+            effect shouldBe expected
+            res shouldBe either
         }
     }
 }
