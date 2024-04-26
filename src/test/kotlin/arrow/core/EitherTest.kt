@@ -7,6 +7,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import arrow.core.test.either
+import arrow.core.test.laws.intSmall
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.string
 import kotlinx.coroutines.test.runTest
@@ -66,6 +67,17 @@ class EitherTest {
             }
             effect shouldBe expected
             res shouldBe either
+        }
+    }
+
+    @Test
+    fun foldOk() = runTest {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.fold({ it + 2 }, { it + 1 }) shouldBe a + 1
+            left.fold({ it + 2 }, { it + 1 }) shouldBe b + 2
         }
     }
 }

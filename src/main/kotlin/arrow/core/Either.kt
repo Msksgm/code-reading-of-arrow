@@ -19,6 +19,40 @@ public sealed class Either<out A, out B> {
     }
 
     /**
+     * Transform on [Either] into a value of [C].
+     * Alternative to using `when` to fold on [Either] into a value [C].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     * import io.kotest.assertions.fail
+     *
+     * fun test() {
+     *  Either.Right(1)
+     *    .fold({ fail("Cannot be left") }, { it + 1 }) shouldBe 2
+     *  Either.Left(RuntimeException("Boom!"))
+     *    .fold({ -1 }, { fail("Cannot be right") }) shouldBe -1
+     * }
+     * ```
+     * <!--- KNIT example-either-23.kt -->
+     * <!--- TEST lines.isEmpty() -->
+     *
+     * @param ifLeft transform the [Either.Left] type [A] to [C].
+     * @param ifRight transform the [Either.Right] type [B] to [C].
+     * @return the transformed value [C] by applying [ifLeft] or [ifRight] to [A] or [B] respectively.
+     */
+    public inline fun <C> fold(ifLeft: (left: A) -> C, ifRight: (right: B) -> C): C {
+        contract {
+            callsInPlace(ifLeft, InvocationKind.AT_MOST_ONCE)
+            callsInPlace(ifRight, InvocationKind.AT_MOST_ONCE)
+        }
+        return when (this) {
+            is Right -> ifRight(value)
+            is Left -> ifLeft(value)
+        }
+    }
+
+    /**
      * Returns true if this is [Right], false otherwise.
      */
     public fun isRight(): Boolean {
