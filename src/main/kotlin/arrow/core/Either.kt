@@ -128,3 +128,21 @@ public sealed class Either<out A, out B> {
         return also { if (it.isLeft()) action (it.value) }
     }
 }
+
+/**
+ * Combine two [Either] values.
+ * If both are [Right] then combine both [B] values using [combineRight] or if both are [Left] then combine both [A] values using [combineLeft].
+ * otherwise it returns the `this` or fallbacks to [other] in case `this` is [Left].
+ */
+public fun <A, B> Either<A, B>.combine(other: Either<A, B>, combineLeft: (A, A) -> A, combineRight: (B, B) -> B): Either<A, B> =
+    when (val one = this) {
+        is Either.Left -> when (other) {
+            is Either.Left -> Either.Left(combineLeft(one.value, other.value))
+            is Either.Right -> one
+        }
+
+        is Either.Right -> when (other) {
+            is Either.Left -> other
+            is Either.Right -> Either.Right(combineRight(one.value, other.value))
+        }
+    }

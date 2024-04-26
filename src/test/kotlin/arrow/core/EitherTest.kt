@@ -80,4 +80,34 @@ class EitherTest {
             left.fold({ it + 2 }, { it + 1 }) shouldBe b + 2
         }
     }
+
+    @Test
+    fun combineTwoRights() = runTest {
+        checkAll(Arb.string(), Arb.string()) { a: String, b: String ->
+            Either.Right(a + b) shouldBe Either.Right(a).combine(
+                Either.Right(b),
+                Int::plus,
+                String::plus
+            )
+        }
+    }
+
+    @Test
+    fun combineTwoLefts() = runTest {
+        checkAll(Arb.string(), Arb.string()) {a: String, b: String ->
+            Either.Left(a + b) shouldBe Either.Left(a).combine(
+                Either.Left(b),
+                String::plus,
+                Int::plus
+            )
+        }
+    }
+
+    @Test
+    fun combineRightLeft() = runTest {
+        checkAll(Arb.string(), Arb.string()) { a: String, b: String ->
+            Either.Left(a) shouldBe Either.Left(a).combine(Either.Right(b), String::plus, String::plus)
+            Either.Left(a) shouldBe Either.Right(a).combine(Either.Left(a), String::plus, String::plus)
+        }
+    }
 }
