@@ -158,4 +158,26 @@ class EitherTest {
             left.map { it + 1 } shouldBe left
         }
     }
+
+    @Test
+    fun mapLeftOnlyLeft() = runTest {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.mapLeft { it + 1 } shouldBe right
+            left.mapLeft { it + 1 } shouldBe Either.Left(b + 1)
+        }
+    }
+
+    @Test
+    fun flatMapOnlyRight() = runTest {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.flatMap { Either.Right(it + 1) } shouldBe Either.Right(a + 1)
+            left.flatMap { Either.Right(it + 1) } shouldBe left
+        }
+    }
 }
