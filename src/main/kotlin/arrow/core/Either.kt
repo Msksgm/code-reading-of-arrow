@@ -130,6 +130,29 @@ public sealed class Either<out A, out B> {
 }
 
 /**
+ * Get thr right value [B] of this [Either]],
+ * of compute a [default] value with the left value [A].
+ *
+ * ```kotlin
+ * import arrow.core.Either
+ * import arrow.core.getOrElse
+ * import io.kotest.matchers.shouldBe
+ *
+ * fun test() {
+ *   Either.Left(12) get OrElse { it + 5 } shouldBe 17
+ * }
+ * ```
+ *  <!--- KNIT example-either-32.kt -->
+ *  <!--- TEST lines.isEmpty() -->
+ */
+public inline infix fun <A, B> Either<A, B>.getOrElse(default: (A) -> B): B {
+    contract {
+        callsInPlace(default, InvocationKind.AT_MOST_ONCE)
+    }
+    return fold({ default(it) }, ::identity)
+}
+
+/**
  * Combine two [Either] values.
  * If both are [Right] then combine both [B] values using [combineRight] or if both are [Left] then combine both [A] values using [combineLeft].
  * otherwise it returns the `this` or fallbacks to [other] in case `this` is [Left].

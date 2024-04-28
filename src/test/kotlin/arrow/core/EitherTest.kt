@@ -110,4 +110,12 @@ class EitherTest {
             Either.Left(a) shouldBe Either.Right(a).combine(Either.Left(a), String::plus, String::plus)
         }
     }
+
+    @Test
+    fun getOrElseOk() = runTest {
+        checkAll(Arb.int(), Arb.int()) { a: Int, b: Int ->
+            Either.Right(a).getOrElse { b } shouldBe a
+            Either.Left(a).getOrElse { b } shouldBe b
+        }
+    }
 }
