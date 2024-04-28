@@ -53,6 +53,24 @@ public sealed class Either<out A, out B> {
     }
 
     /**
+     * Swap the generic parameters [A] and [B] of this [Either].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Left("left").swap() shouldBe Either.Right("left")
+     *   Either.Right("right").swap() shouldBe Either.Left("right")
+     * }
+     * ```
+     * <!--- KNIT example-either-24.kt --
+     * <!-- TEST lines.isEmpty() -->
+     */
+    public fun swap(): Either<B, A> =
+        fold({ Right(it) }, { Left(it) })
+
+    /**
      * Returns true if this is [Right], false otherwise.
      */
     public fun isRight(): Boolean {

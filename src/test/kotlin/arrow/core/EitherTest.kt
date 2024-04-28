@@ -139,4 +139,12 @@ class EitherTest {
             Either.Left(a).getOrNone() shouldBe None
         }
     }
+
+    @Test
+    fun swapOk() = runTest {
+        checkAll(Arb.int()) { a: Int ->
+            Either.Right(a).swap() shouldBe Either.Left(a)
+            Either.Left(a).swap() shouldBe Either.Right(a)
+        }
+    }
 }
