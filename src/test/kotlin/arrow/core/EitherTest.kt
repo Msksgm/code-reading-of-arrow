@@ -118,4 +118,11 @@ class EitherTest {
             Either.Left(a).getOrElse { b } shouldBe b
         }
     }
+
+    @Test
+    fun getOrNullOk() = runTest {
+        checkAll(Arb.int()) { a: Int ->
+            Either.Right(a).getOrNull() shouldBe a
+        }
+    }
 }

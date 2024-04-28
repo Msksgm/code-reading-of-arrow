@@ -127,6 +127,29 @@ public sealed class Either<out A, out B> {
         }
         return also { if (it.isLeft()) action (it.value) }
     }
+
+    /**
+     * Returns th unwrapped value [B] of [Either.Right] or `null` if it is [Either.Left].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *  Either.Right(12).getOrNull() shouldBe 12
+     *  Either.Left(12).getOrNull() shouldBe null
+     * }
+     * ```
+     * <!--- KNIT example-either-29.kt -->
+     * <!--- TEST lines.isEmpty() -->
+     */
+    public fun getOrNull(): B? {
+        contract {
+            returns(null) implies (this@Either is Left<A>)
+            returnsNotNull() implies (this@Either is Right<B>)
+        }
+        return getOrElse { null }
+    }
 }
 
 /**
