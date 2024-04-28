@@ -71,6 +71,28 @@ public sealed class Either<out A, out B> {
         fold({ Right(it) }, { Left(it) })
 
     /**
+     * Map, or transform, the right value [B] of this [Either] to a new value [C].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import io.kotest.matchers.shouldBe
+     *
+     * fun test() {
+     *   Either.Right(12).map { _: Int -> "flower" } shouldBe Either.Right("flower")
+     *   Either.Left(12).map { _: Nothing -> "flower" } shouldBe Either.Left(12)
+     * }
+     * ```
+     * <!--- KNIT example-either-25.kt -->
+     * <!--- TEST lines.isEmpty() -->
+     */
+    public inline fun <C> map(f: (right: B) -> C): Either<A, C> {
+        contract {
+            callsInPlace(f, InvocationKind.AT_MOST_ONCE)
+        }
+        return flatMap { Either.Right(f(it))}
+    }
+
+    /**
      * Returns true if this is [Right], false otherwise.
      */
     public fun isRight(): Boolean {
@@ -188,6 +210,23 @@ public sealed class Either<out A, out B> {
      * <!--- TEST lines.isEmpty() -->
      */
     public fun getOrNone(): Option<B> = fold({ None }, { Some(it) })
+}
+
+/**
+ * Binds the given function across [Right], that is,
+ * Map, or transform, thr right value [B] of this [Either] into a new [Either] with a right value of type [C].
+ * Returns a new [Either] with either the original left value of type [A] or the newly transformed right value of type [C].
+ *
+ * @param f The function to bind across [Right].
+ */
+public inline fun <A, B, C> Either<A, B>.flatMap(f: (right: B) -> Either<A, C>): Either<A, C> {
+    contract {
+        callsInPlace(f, InvocationKind.AT_MOST_ONCE)
+    }
+    return when(this) {
+        is Either.Right -> f(this.value)
+        is Either.Left -> this
+    }
 }
 
 /**

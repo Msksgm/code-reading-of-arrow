@@ -147,4 +147,15 @@ class EitherTest {
             Either.Left(a).swap() shouldBe Either.Right(a)
         }
     }
+
+    @Test
+    fun mapOnlyRight() = runTest {
+        checkAll(Arb.intSmall(), Arb.intSmall()) { a, b ->
+            val right: Either<Int, Int> = Either.Right(a)
+            val left: Either<Int, Int> = Either.Left(b)
+
+            right.map { it + 1 } shouldBe  Either.Right(a + 1)
+            left.map { it + 1 } shouldBe left
+        }
+    }
 }
