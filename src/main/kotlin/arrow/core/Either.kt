@@ -150,6 +150,26 @@ public sealed class Either<out A, out B> {
         }
         return getOrElse { null }
     }
+
+    /**
+     * Transforms [Either] into [Option],
+     * where the encapsulated value [B] is wrapped in [Some] when this instance represents [Either.Right],
+     * or [None] if it is [Either.Left].
+     *
+     * ```kotlin
+     * import arrow.core.Either
+     * import arrow.core.Some
+     * import arrow.core.None
+     *
+     * fun test() {
+     *   Either.Right(12).getOrNone() shouldBe Some(12)
+     *   Either.Left(12).getOrNone() shouldBe None
+     * }
+     * ```
+     * <!--- KNIT example-either-31.kt -->
+     * <!--- TEST lines.isEmpty() -->
+     */
+    public fun getOrNone(): Option<B> = fold({ None }, { Some(it) })
 }
 
 /**

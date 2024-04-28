@@ -125,4 +125,18 @@ class EitherTest {
             Either.Right(a).getOrNull() shouldBe a
         }
     }
+
+    @Test
+    fun getOrNoneRight() = runTest {
+        checkAll(Arb.string()) { a: String ->
+            Either.Right(a).getOrNone() shouldBe Some(a)
+        }
+    }
+
+    @Test
+    fun getOrNoneLeft() = runTest {
+        checkAll(Arb.string()) { a: String ->
+            Either.Left(a).getOrNone() shouldBe None
+        }
+    }
 }
