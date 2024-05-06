@@ -41,3 +41,6 @@ dependencyResolutionManagement {
 
 include("arrow-core")
 project(":arrow-core").projectDir = file("arrow-libs/core/arrow-core")
+
+include("arrow-atomic")
+project(":arrow-atomic").projectDir = file("arrow-libs/core/arrow-atomic")
