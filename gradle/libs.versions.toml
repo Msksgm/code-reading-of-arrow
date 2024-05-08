@@ -6,6 +6,7 @@ kotest = "5.8.1"
 [libraries]
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 
