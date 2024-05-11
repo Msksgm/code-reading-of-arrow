@@ -16,4 +16,13 @@ class AtomicIntTest {
       r.value shouldBe y
     }
   }
+
+  @org.junit.Test
+  fun getAndSetSuccessful() = runTest {
+    checkAll(Arb.int(), Arb.int()) { x, y ->
+      val ref = AtomicInt(x)
+      ref.getAndSet(y) shouldBe x
+      ref.value shouldBe y
+    }
+  }
 }
