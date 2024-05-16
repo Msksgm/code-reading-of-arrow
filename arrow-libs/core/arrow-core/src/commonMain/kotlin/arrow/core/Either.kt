@@ -294,6 +294,58 @@ public sealed class Either<out A, out B> {
             }
         }
 
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, Z> zipOrAccumulate(
+            a: Either<E, A>,
+            b: Either<E, B>,
+            c: Either<E, C>,
+            d: Either<E, D>,
+            e: Either<E, EE>,
+            f: Either<E, F>,
+            g: Either<E, G>,
+            h: Either<E, H>,
+            i: Either<E, I>,
+            transform: (A, B, C, D, EE, F, G, H, I) -> Z,
+        ): Either<NonEmptyList<E>, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return zipOrAccumulate(a, b, c, d, e, f, g, h, i, unit) { aa, bb, cc, dd, ee, ff, gg, hh, ii, _ ->
+                transform(aa, bb, cc, dd, ee, ff, gg, hh, ii)
+            }
+        }
+
+        @Suppress("DuplicatedCode")
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, J, Z> zipOrAccumulate(
+            a: Either<E, A>,
+            b: Either<E, B>,
+            c: Either<E, C>,
+            d: Either<E, D>,
+            e: Either<E, EE>,
+            f: Either<E, F>,
+            g: Either<E, G>,
+            h: Either<E, H>,
+            i: Either<E, I>,
+            j: Either<E, J>,
+            transform: (A, B, C, D, EE, F, G, H, I, J) -> Z,
+        ): Either<NonEmptyList<E>, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return if (a is Right && b is Right && c is Right && d is Right && e is Right && f is Right && g is Right && h is Right && i is Right && j is Right) {
+                Right(transform(a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value, i.value, j.value))
+            } else {
+                val list = buildList(9) {
+                    if (a is Left) add(a.value)
+                    if (b is Left) add(b.value)
+                    if (c is Left) add(c.value)
+                    if (d is Left) add(d.value)
+                    if (e is Left) add(e.value)
+                    if (f is Left) add(f.value)
+                    if (g is Left) add(g.value)
+                    if (h is Left) add(h.value)
+                    if (i is Left) add(i.value)
+                    if (j is Left) add(j.value)
+                }
+                Left(NonEmptyList(list[0], list.drop(1)))
+            }
+        }
+
         @JvmName("zipOrAccumulateNonEmptyList")
         public inline fun <E, A, B, C, D, EE, F, G, H, I, Z> zipOrAccumulate(
             a: EitherNel<E, A>,

@@ -218,6 +218,34 @@ class EitherTest {
   }
 
   @Test
+  fun zipOrAccumulateSemigroup() = runTest {
+    checkAll(
+      Arb.either(Arb.string(), Arb.short()),
+      Arb.either(Arb.string(), Arb.byte()),
+      Arb.either(Arb.string(), Arb.int()),
+      Arb.either(Arb.string(), Arb.long()),
+      Arb.either(Arb.string(), Arb.float()),
+      Arb.either(Arb.string(), Arb.double()),
+      Arb.either(Arb.string(), Arb.char()),
+      Arb.either(Arb.string(), Arb.string()),
+      Arb.either(Arb.string(), Arb.boolean())
+    ) { a, b, c, d, e, f, g, h, i ->
+      val res = Either.zipOrAccumulate(a, b, c, d, e, f, g, h, i, ::Tuple9)
+      val all = listOf(a, b, c, d, e, f, g, h, i)
+
+      val expected = if (all.any { it.isLeft() }) {
+        all.filterIsInstance<Left<String>>().map { it.value }.toNonEmptyListOrNull()!!.left()
+      } else {
+        all.filterIsInstance<Right<Any?>>().map { it.value }.let {
+          Tuple9(it[0], it[1], it[2], it[3], it[4], it[5], it[6], it[7], it[8]).right()
+        }
+      }
+
+      res shouldBe expected
+    }
+  }
+
+  @Test
   fun zipOrAccumulateEitherNel() = runTest {
     checkAll(
       Arb.either(Arb.nonEmptyList(Arb.int()), Arb.short()),
