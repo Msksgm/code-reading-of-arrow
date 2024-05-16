@@ -2,9 +2,14 @@
 
 package arrow.core
 
+import arrow.core.Either.Left
+import arrow.core.Either.Right
+import arrow.core.Either.Right.Companion.unit
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
+
+public typealias EitherNel<E, A> = Either<NonEmptyList<E>, A>
 
 public sealed class Either<out A, out B> {
     /**
@@ -232,6 +237,117 @@ public sealed class Either<out A, out B> {
      * <!--- TEST lines.isEmpty() -->
      */
     public fun getOrNone(): Option<B> = fold({ None }, { Some(it) })
+
+    public companion object {
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, Z> zipOrAccumulate(
+            combine: (E, E) -> E,
+            a: Either<E, A>,
+            b: Either<E, B>,
+            c: Either<E, C>,
+            d: Either<E, D>,
+            e: Either<E, EE>,
+            f: Either<E, F>,
+            g: Either<E, G>,
+            h: Either<E, H>,
+            i: Either<E, I>,
+            transform: (A, B, C, D, EE, F, G, H, I) -> Z,
+        ): Either<E, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return zipOrAccumulate(combine, a, b, c, d, e, f, g, h, i, unit) { aa, bb, cc, dd, ee, ff, gg, hh, ii, _ ->
+                transform(aa, bb, cc, dd, ee, ff, gg, hh, ii)
+            }
+        }
+
+        @Suppress("DuplicatedCode")
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, J, Z> zipOrAccumulate(
+            combine: (E, E) -> E,
+            a: Either<E, A>,
+            b: Either<E, B>,
+            c: Either<E, C>,
+            d: Either<E, D>,
+            e: Either<E, EE>,
+            f: Either<E, F>,
+            g: Either<E, G>,
+            h: Either<E, H>,
+            i: Either<E, I>,
+            j: Either<E, J>,
+            transform: (A, B, C, D, EE, F, G, H, I, J) -> Z,
+        ): Either<E, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return if (a is Right && b is Right && c is Right && d is Right && e is Right && f is Right && g is Right && h is Right && i is Right && j is Right) {
+                Right(transform(a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value, i.value, j.value))
+            } else {
+                var accumulatedError: Any? = EmptyValue
+                accumulatedError = if (a is Left) a.value else accumulatedError
+                accumulatedError = if (b is Left) EmptyValue.combine(accumulatedError, b.value, combine) else accumulatedError
+                accumulatedError = if (c is Left) EmptyValue.combine(accumulatedError, c.value, combine) else accumulatedError
+                accumulatedError = if (d is Left) EmptyValue.combine(accumulatedError, d.value, combine) else accumulatedError
+                accumulatedError = if (e is Left) EmptyValue.combine(accumulatedError, e.value, combine) else accumulatedError
+                accumulatedError = if (f is Left) EmptyValue.combine(accumulatedError, f.value, combine) else accumulatedError
+                accumulatedError = if (g is Left) EmptyValue.combine(accumulatedError, g.value, combine) else accumulatedError
+                accumulatedError = if (h is Left) EmptyValue.combine(accumulatedError, h.value, combine) else accumulatedError
+                accumulatedError = if (i is Left) EmptyValue.combine(accumulatedError, i.value, combine) else accumulatedError
+                accumulatedError = if (j is Left) EmptyValue.combine(accumulatedError, j.value, combine) else accumulatedError
+
+                @Suppress("UNCHECKED_CAST")
+                (Left(accumulatedError as E))
+            }
+        }
+
+        @JvmName("zipOrAccumulateNonEmptyList")
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, Z> zipOrAccumulate(
+            a: EitherNel<E, A>,
+            b: EitherNel<E, B>,
+            c: EitherNel<E, C>,
+            d: EitherNel<E, D>,
+            e: EitherNel<E, EE>,
+            f: EitherNel<E, F>,
+            g: EitherNel<E, G>,
+            h: EitherNel<E, H>,
+            i: EitherNel<E, I>,
+            transform: (A, B, C, D, EE, F, G, H, I) -> Z,
+        ): EitherNel<E, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return zipOrAccumulate(a, b, c, d, e, f, g, h, i, unit) { aa, bb, cc, dd, ee, ff, gg, hh, ii, _ ->
+                transform(aa, bb, cc, dd, ee, ff, gg, hh, ii)
+            }
+        }
+
+        @Suppress("DuplicatedCode")
+        @JvmName("zipOrAccumulateNonEmptyList")
+        public inline fun <E, A, B, C, D, EE, F, G, H, I, J, Z> zipOrAccumulate(
+            a: EitherNel<E, A>,
+            b: EitherNel<E, B>,
+            c: EitherNel<E, C>,
+            d: EitherNel<E, D>,
+            e: EitherNel<E, EE>,
+            f: EitherNel<E, F>,
+            g: EitherNel<E, G>,
+            h: EitherNel<E, H>,
+            i: EitherNel<E, I>,
+            j: EitherNel<E, J>,
+            transform: (A, B, C, D, EE, F, G, H, I, J) -> Z,
+        ): EitherNel<E, Z> {
+            contract { callsInPlace(transform, InvocationKind.AT_MOST_ONCE) }
+            return if (a is Right && b is Right && c is Right && d is Right && e is Right && f is Right && g is Right && h is Right && i is Right && j is Right) {
+                Right(transform(a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value, i.value, j.value))
+            } else {
+                val list = buildList {
+                    if (a is Left) addAll(a.value)
+                    if (b is Left) addAll(b.value)
+                    if (c is Left) addAll(c.value)
+                    if (d is Left) addAll(d.value)
+                    if (e is Left) addAll(e.value)
+                    if (f is Left) addAll(f.value)
+                    if (g is Left) addAll(g.value)
+                    if (h is Left) addAll(h.value)
+                    if (i is Left) addAll(i.value)
+                    if (j is Left) addAll(j.value)
+                }
+                Left(NonEmptyList(list[0], list.drop(1)))
+            }
+        }
+    }
 }
 
 /**
@@ -250,6 +366,10 @@ public inline fun <A, B, C> Either<A, B>.flatMap(f: (right: B) -> Either<A, C>):
         is Either.Left -> this
     }
 }
+
+public fun <A> A.left(): Either<A, Nothing> = Left(this)
+
+public fun <A> A.right(): Either<Nothing, A> = Right(this)
 
 /**
  * Get thr right value [B] of this [Either]],
