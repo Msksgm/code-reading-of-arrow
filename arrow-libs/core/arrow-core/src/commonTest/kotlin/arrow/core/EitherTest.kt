@@ -8,8 +8,10 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import arrow.core.test.either
+import arrow.core.test.laws.MonoidLaws
 import arrow.core.test.laws.intSmall
 import arrow.core.test.nonEmptyList
+import arrow.core.test.testLaws
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.byte
 import io.kotest.property.arbitrary.char
@@ -22,13 +24,14 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class EitherTest {
+
   val ARB = Arb.either(Arb.string(), Arb.int())
 
-//  @Test
-//  fun monoidLaws() =
-//    testLaws(
-//      MonoidLaws("Either", 0.right(), { x, y -> x.combine(y, String::plus, Int::plus) }, ARB)
-//    )
+  @Test
+  fun monoidLaws() =
+    testLaws(
+      MonoidLaws("Either", 0.right(), { x, y -> x.combine(y, String::plus, Int::plus) }, ARB)
+    )
 
   @Test
   fun leftIsLeftIsRight() = runTest {
